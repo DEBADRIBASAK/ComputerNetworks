@@ -1,0 +1,1 @@
+cmd_/home/debadri/ComputerNetworks/hello.ko := ld -r -m elf_x86_64 -z max-page-size=0x200000 -T ./scripts/module-common.lds --build-id  -o /home/debadri/ComputerNetworks/hello.ko /home/debadri/ComputerNetworks/hello.o /home/debadri/ComputerNetworks/hello.mod.o ;  true

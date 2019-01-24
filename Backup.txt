@@ -1,0 +1,80 @@
+// server
+
+int present[3] = {0,0,0};
+	int dfd[3],prfd[3];
+	FILE* fp[3];
+	int f = mkfifo(SERVERPATH,O_CREAT|0666);
+	if(f<0)
+	{
+		perror("FIFO not created");
+		//exit(0);
+	}
+	else
+	{
+		printf("Successful\n");
+	}
+	int fd = open(SERVERPATH,O_RDONLY);
+	if(fd<0)
+	{
+		perror("Server fifo not opened");
+		exit(0);
+	}
+	else
+	{
+		printf("Successful\n");
+	}
+	struct Pair A;
+	while(1)
+	{
+		int f = 0;
+		read(fd,&A,sizeof(struct Pair));
+		printf("request %s - %d\n",A.p,A.req);
+		if(present[A.req-1]!=1)
+		{
+			present[A.req-1] = 1;
+			char pro[5] = {'.','/','D','1','\0'};
+			//char pro1[5] = {'.','/','d','1','\0'};
+			pro[3] = (char)(A.req+'0');
+			//pro1[3] = (char)(A.req+'0');
+			fp[A.req-1] = popen(pro,"r");
+			if(fp==NULL)
+			{
+				perror("Data centre not opened!");
+				exit(0);
+			}
+			dfd[A.req-1] = fileno(fp[A.req-1]);
+			//mkfifo(pro+2,O_CREAT|0666);
+			 //prfd[A.req-1] = open(pro1+2,O_CREAT|O_WRONLY,S_IRUSR|S_IWUSR);
+			// if(prfd[A.req-1]<0)
+			// {
+			// 	perror("Internal file read end not opened");
+			// 	exit(0);
+			// }
+			//pwfd[A.req-1] = open(pro+2,O_WRONLY);//|O_NONBLOCK);
+			//dup2(dfd[A.req-1],prfd[A.req-1]);
+			f = 1;
+		}
+		mkfifo(A.p,O_CREAT|0666);
+		int fd1 = open(A.p,O_RDWR);
+		if(fd1<0)
+		{
+			perror("Client fifo not opened");
+			exit(0);
+		}
+		else
+		{
+			printf("Successful\n");
+		}
+		dup2(fd1,dfd[A.req-1]);
+		// for(int i=0;i<3;i++)
+		// {
+		// 	if(present[i])
+		// 	{
+		// 		char buff[15];
+		// 		int sz = read(dfd[i],buff,15);
+		// 		buff[sz] = '\0';
+		// 		printf("Reading  = %s\n",buff);
+		// 		write(prfd[i],buff,sz);
+		// 	}
+		// }
+		sleep(1);
