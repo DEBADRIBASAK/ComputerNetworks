@@ -79,7 +79,7 @@ void* operation(void* arg)
 				client_tab[cnt++] = m.p[0].pid;
 			}
 		}
-		sleep(10);
+		sleep(2);
 	}
 }
 int main(int argc, char const *argv[])
