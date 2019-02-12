@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 	fd_set readset;
 	
 	int maxfdp1 = 0,fd;
-	int dfd[3];
+	int dfd[3] = {-1,-1,-1};
 	int present[3] = {0,0,0},ind[3];
 	int cfd[3][10];
 	ind[0] = ind[1] = ind[2] = 0;
@@ -58,9 +58,10 @@ int main(int argc, char *argv[])
 			if(FD_ISSET(fd,&readset))
 			{
 				read(fd,&A,sizeof(struct Pair));
-				printf("Reading: %s",A.p);
+				printf("Reading: %s\n",A.p);
 				if(!present[A.req-1])
 				{
+					printf("*\n");
 					char pro[] = {'.','/','D','1','\0'};
 					pro[3] = (char)(A.req+'0');
 					FILE* fp = popen(pro,"r");
@@ -71,7 +72,7 @@ int main(int argc, char *argv[])
 					}
 					dfd[A.req-1] = fileno(fp);
 					maxfdp1 = max(maxfdp1,dfd[A.req-1]);
-					//FD_SET(dfd[A.req-1],&readset);
+					FD_SET(dfd[A.req-1],&readset);
 				}
 				mkfifo(A.p,O_CREAT|0666);
 				cfd[A.req-1][ind[A.req-1]++] = open(A.p,O_WRONLY);
@@ -84,21 +85,24 @@ int main(int argc, char *argv[])
 				{
 					int sz = read(dfd[i],buffer,100);
 					buffer[sz] = '\0';
-					for(int j=0;j<ind[i-1];j++)
+					for(int j=0;j<ind[i];j++)
 					{
-						if(cfd[i-1][j]>0)
+						if(cfd[i][j]>0)
 						{
-							int r = write(cfd[i-1][j],buffer,sz);
+							int r = write(cfd[i][j],buffer,sz);
 							if(r<0)
 							{
-								close(cfd[i-1][j]);
-								cfd[i-1][j] = -1;
+								close(cfd[i][j]);
+								cfd[i][j] = -1;
 							}
 						}
 					}
 				}
 				else
+				{
+					//printf("Not %d\n",i+1);
 					FD_SET(dfd[i],&readset);
+				}
 			}
 		}
 		sleep(1);
