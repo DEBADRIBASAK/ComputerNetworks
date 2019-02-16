@@ -46,7 +46,7 @@ void server_operation()
 
 int main(int argc,char* argv[])
 {
-	char address[20];
+	char address[INET_ADDRSTRLEN];
 	const char *ip;
 	int sfd = socket(AF_INET,SOCK_STREAM,0);
 	if(sfd<0)
@@ -66,9 +66,9 @@ int main(int argc,char* argv[])
 	}
 	else
 	{
-		getsockname(sfd,(struct sockaddr*)&addr_check,NULL);
-		ip = inet_ntop(AF_INET,&(addr_check.sin_addr),address,INET_ADDRSTRLEN);
-		printf("Server started with IP: %s\n",ip);
+		//getsockname(sfd,(struct sockaddr*)&addr_check,NULL);
+		inet_ntop(AF_INET,&(addr.sin_addr.s_addr),address,INET_ADDRSTRLEN);
+		printf("Server started with IP: %s\n",address);
 	}
 	if(listen(sfd,NO_OF_REQUEST)<0)
 	{
@@ -86,9 +86,10 @@ int main(int argc,char* argv[])
 		}
 		else
 		{
-			getpeername(nsfd,(struct sockaddr*)&addr_check,NULL);
-			ip = inet_ntop(AF_INET,&(addr_check.sin_addr),address,INET_ADDRSTRLEN);
-			printf("Accepted IP: %s\n",ip);	
+			int sz = sizeof(addr_check);
+			getpeername(nsfd,(struct sockaddr*)&addr_check,&sz);
+			inet_ntop(AF_INET,&(addr_check.sin_addr.s_addr),address,INET_ADDRSTRLEN);
+			printf("Accepted IP: %s\n",address);	
 		}
 		server_operation();
 	}
