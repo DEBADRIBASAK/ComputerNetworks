@@ -17,7 +17,7 @@ void server_operation()
 	char buffer[50];int sz;
 	while(1)
 	{
-		if((sz = recv(nsfd,buffer,50,0))<0)
+		if((sz = recv(nsfd,buffer,50,0))<=0)
 		{
 			perror("Reading error!");
 			close(nsfd);
