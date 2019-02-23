@@ -35,6 +35,7 @@ void server_operation()
 
 	}
 	close(sfd2);
+	close(nsfd);
 }
 
 int main(int argc, char const *argv[])

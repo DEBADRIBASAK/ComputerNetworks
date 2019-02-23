@@ -1,0 +1,4 @@
+NAME 	PROTOCOL	TYPE	PORT 	PATH
+change_to_upper_case tcp external 8000 ../Sockets/change_to_upper_case
+encryption udp internal 8002 ../Sockets/encryption
+mathematics tcp external 8001 ../Sockets/mathematics

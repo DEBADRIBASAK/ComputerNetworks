@@ -2,7 +2,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
-#define PORT 8000
+#define PORT 8002
 #define NO_OF_REQUESTS 10
 
 int main(int argc, char const *argv[])
@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
 	struct sockaddr_in addr,addr1;
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-	addr.sin_port = atoi(argv[1]);
+	addr.sin_port = htons(atoi(argv[1]));
 	int sfd = socket(AF_INET,SOCK_DGRAM,0);
 	if(sfd<0)
 	{
@@ -29,7 +29,7 @@ int main(int argc, char const *argv[])
 	}
 	addr1.sin_family = AF_INET;
 	addr1.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-	addr1.sin_port = PORT;
+	addr1.sin_port = htons(PORT);
 	int sz,len = sizeof(addr1);
 	while(1)
 	{

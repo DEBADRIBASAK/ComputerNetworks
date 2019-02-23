@@ -81,9 +81,10 @@ int main(int argc, char const *argv[])
 					exit(0);
 				}
 				send(sfd2,(struct sockaddr_in*)&cl_addr,sizeof(cl_addr),0);
-				//close(sfd);
+				close(sfd2);
+				close(nsfd[ind]);
 				//dup2(nsfd[ind],sfd2);
-				ind++;
+				//ind++;
 				printf("Success..\n");
 			}
 		}

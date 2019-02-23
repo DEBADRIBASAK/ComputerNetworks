@@ -2,7 +2,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
-#define PORT 8000
+#define PORT 8002
 #define NO_OF_REQUESTS 10
 
 

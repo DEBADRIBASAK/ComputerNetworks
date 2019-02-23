@@ -6,7 +6,7 @@
 #include <syslog.h>
 #include <sys/select.h>
 
-int ports[3] = {8000,8001,8002};
+int ports[4] = {8000,8001,8002,8003};
 struct triplet
 {
 	int a,b,c;
@@ -59,6 +59,7 @@ int main(int argc, char const *argv[])
 				while(getchar()!='\n');
 				break;
 			case 2:
+			case 4:
 				printf("Enter two numbers and one operation\n");
 				scanf("%d%d%d",&(p.Opt.t.a),&(p.Opt.t.b),&(p.Opt.t.c));
 				break;
@@ -73,7 +74,7 @@ int main(int argc, char const *argv[])
 			if(strcmp(p.Opt.buffer,"bye")==0)
 				break;
 		}
-		else if(p.Opt.t.c=='@')
+		else if(p.Opt.t.c==-1)
 		{
 			break;
 		}
