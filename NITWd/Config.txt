@@ -1,0 +1,3 @@
+NAME TYPE PORT NUM PATH MANNER
+to_lower tcp 8001 2 ./to_lower process
+to_upper tcp 8002 2 --- thread

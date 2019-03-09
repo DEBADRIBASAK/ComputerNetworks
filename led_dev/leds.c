@@ -81,11 +81,11 @@ static ssize_t led_write(struct file* f,const char* buffer,size_t length,loff_t*
 	for(i=0;i<(int)length;i++)
 	{
 		if(buffer[i]=='1')
-			n = n&(1<<7);
+			n = n&(1<<0);
 		else if(buffer[i]=='2')
-			n = n&(1<<6);
+			n = n&(1<<1);
 		else if(buffer[i]=='3')
-			n = n&(1<<5);
+			n = n&(1<<2);
 	}
 	outb(0xed,0x60);
 	udelay(delay);

@@ -69,7 +69,7 @@ static ssize_t read_dev(struct file* f,char* buf,size_t length,loff_t* offset)
 	char *b;
 	do_gettimeofday(&t);
 	b = kmalloc(sizeof(char)*40,GFP_KERNEL);
-	len = snprintf(b,sizeof(char)*40,"%ld",(long)(t.tv_sec%60));
+	len = sprintf(b,"%ld",(long)(t.tv_sec%60));
 	copy_to_user(buf,b,len);
 	printk("The time elapsed = %s\n",b);
 	return length;

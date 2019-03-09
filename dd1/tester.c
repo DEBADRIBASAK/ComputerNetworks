@@ -14,6 +14,7 @@ int main()
 	}
 	char buff[40];
 	int sz = read(fd,buff,40);
+	buff[sz] = '\0';
 	printf("String read = %s\nBytes read = %d\n",buff,sz);
 	close(fd);
 	return 0;
