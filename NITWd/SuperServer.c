@@ -3,14 +3,10 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <pthread.h>
+#include <fcntl.h>
 #define PATH "."
 #define PROJID 23
 #define MAXFD 255
-struct Pair
-{
-	int p;
-	int fd1,fd2;
-};
 
 int sfd[MAXFD],count[MAXFD]={0},ports[MAXFD],ind = 0;
 char* paths[MAXFD],*types[MAXFD],*manner[MAXFD];
@@ -18,7 +14,7 @@ struct sockaddr_in addr[MAXFD];
 int shmid;
 
 fd_set readset;int maxfp1=-1;
-struct Pair* p;
+int* p;
 
 void* func(void* args)
 {
@@ -56,7 +52,7 @@ void* func(void* args)
 
 void sig_handler(int alrm)
 {
-	count[p->p]++;
+	count[*p]++;
 }
 
 
@@ -69,21 +65,19 @@ int main(int argc, char const *argv[])
 		perror("Could not make the key");
 		exit(0);
 	}
-	shmid = shmget(k,sizeof(struct Pair),IPC_CREAT|0666);
+	shmid = shmget(k,sizeof(int),IPC_CREAT|0666);
 	if(shmid<0)
 	{
 		perror("Could not prepare shared memory");
 		exit(0);
 	}
-	p = (struct Pair*)shmat(shmid,NULL,0);
+	p = (int*)shmat(shmid,NULL,0);
 
 	if(p==NULL)
 	{
 		perror("Could not attach");
 		exit(0);
 	}
-	dup2(0,p->fd1);
-	dup2(1,p->fd2);
 	FILE* fp = fopen("Config.txt","r");
 	if(fp==NULL)
 	{
@@ -95,6 +89,9 @@ int main(int argc, char const *argv[])
 	int sz = fscanf(fp,"%[^\n]s",buffer);
 	while(fgetc(fp)!='\n');
 	sz = fscanf(fp,"%[^\n]s",buffer);
+	int fd1 = 10,fd2 = 11;
+	dup2(0,fd1);
+	dup2(1,fd2);
 	while(sz>0)
 	{
 		tok = strtok(buffer," ");
@@ -180,13 +177,13 @@ int main(int argc, char const *argv[])
 							}
 							else if(c==0)
 							{
-								dup2(nsfd,0);
-								dup2(nsfd,1);
-								char* arg[3] = {NULL,NULL,NULL};
+								char* arg[5] = {NULL,NULL,NULL};//,NULL,NULL};
 								arg[0] = strdup(paths[i]);
 								arg[1] = (char*)malloc(sizeof(char)*2);
 								arg[1][0] = (char)(i+'0');
 								arg[1][1] = '\0';
+								dup2(nsfd,0);
+								dup2(nsfd,1);
 								execv(paths[i],arg);
 							}
 							else
