@@ -25,7 +25,9 @@ struct msgstr
 
 struct Shmstr *p;
 
-int shmid,msqid;
+int shmid,msqid,semid;
+
+struct sembuf b;
 
 //fd_set readset;
 
@@ -39,6 +41,13 @@ int is_num(char* s)
 	}
 	return 1;
 }
+
+union semun {
+    int val;    
+    struct semid_ds *buf;
+    unsigned short  *array; 
+    struct seminfo  *__buf;  
+};
 
 int sig_rcv = 0;
 
@@ -159,6 +168,12 @@ int main(int argc, char const *argv[])
 		perror("Message queue not created");
 		exit(0);
 	}
+	semid = semget(k,2,IPC_CREAT|0666);
+	if(semid<0)
+	{
+		perror("Could not create semaphore");
+	}
+	//union semun tmp;
 	p = (struct Shmstr*)shmat(shmid,NULL,0);
 	if(p==NULL)
 	{
@@ -180,8 +195,12 @@ int main(int argc, char const *argv[])
 		exit(0);
 	}
 	char num[300];
+
 	while(1)
 	{
+	b.sem_num = 1;
+	b.sem_op = -1;
+	b.sem_flg = 0;
 		if(msgrcv(msqid,&A,sizeof(A.buffer),pid,0)<0)
 		{
 			perror("Could not receive message");
@@ -214,6 +233,9 @@ int main(int argc, char const *argv[])
 				}
 			}
 		}
+		b.sem_num = 1;
+	b.sem_op = 1;
+	b.sem_flg = 0;
 		sleep(1);
 	}
 	return 0;

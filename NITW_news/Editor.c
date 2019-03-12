@@ -14,6 +14,15 @@ struct Shmstr
 	int no_of_live_telecasts;
 };
 
+union semun {
+    int val;    
+    struct semid_ds *buf;
+    unsigned short  *array; 
+    struct seminfo  *__buf;  
+};
+
+struct sembuf b;
+
 struct msgstr
 {
 	long type;
@@ -22,14 +31,22 @@ struct msgstr
 
 struct Shmstr *p;
 
-int shmid,msqid;
+int shmid,msqid,semid;
 
 fd_set readset;
 
 
 void sig_handler(int alrm)
 {
+	b.sem_num = 0;
+	b.sem_op = -1;
+	b.sem_flg = 0;
+	semop(semid,&b,1);
 	p->no_of_live_telecasts++;
+	b.sem_num = 0;
+	b.sem_op = 1;
+	b.sem_flg = 0;
+	semop(semid,&b,1);
 	printf("No of live telecasts: %d\n",p->no_of_live_telecasts);
 }
 
@@ -55,6 +72,22 @@ int main(int argc, char const *argv[])
 	{
 		perror("Message queue not created");
 		exit(0);
+	}
+	semid = semget(k,2,IPC_CREAT|0666);
+	if(semid<0)
+	{
+		perror("Could not create semaphore");
+	}
+	union semun tmp;
+	tmp.val = 1;
+	if(semctl(semid,0,SETVAL,tmp)<0)
+	{
+		perror("Could not set values");
+	}
+	tmp.val = 1;
+	if(semctl(semid,1,SETVAL,tmp)<0)
+	{
+		perror("Could not set values");
 	}
 	p = (struct Shmstr*)shmat(shmid,NULL,0);
 	if(p==NULL)
