@@ -1,0 +1,10 @@
+
+module Test
+{
+  /// An interface to send oneway messages
+  interface Oneway_Receiver
+  {
+    /// Return a simple string
+    oneway void receive_oneway ();
+  };
+};

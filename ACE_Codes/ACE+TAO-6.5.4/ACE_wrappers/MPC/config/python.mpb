@@ -1,0 +1,6 @@
+// -*- MPC -*-
+project {
+  requires += python
+  includes += $(PYTHON_INCLUDE)/.
+  libpaths += $(PYTHON_LIBDIR)/.
+}

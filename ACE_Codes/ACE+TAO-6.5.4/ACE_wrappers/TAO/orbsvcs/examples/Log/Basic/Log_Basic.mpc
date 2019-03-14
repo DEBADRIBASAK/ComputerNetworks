@@ -1,0 +1,4 @@
+// -*- MPC -*-
+project(*Client) : orbsvcsexe, dslogadmin, naming {
+  exename = client
+}

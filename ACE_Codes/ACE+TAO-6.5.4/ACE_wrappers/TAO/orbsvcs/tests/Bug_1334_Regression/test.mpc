@@ -1,0 +1,7 @@
+// -*- MPC -*-
+project(Bug_1334_client) : namingexe {
+  exename  = client
+  Source_Files {
+    client.cpp
+  }
+}

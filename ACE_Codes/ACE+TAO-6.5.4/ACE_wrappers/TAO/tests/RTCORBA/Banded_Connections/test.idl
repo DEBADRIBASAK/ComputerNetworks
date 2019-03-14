@@ -1,0 +1,8 @@
+
+interface Test
+{
+  void test_method (in boolean client_propagated,
+                    in short client_priority);
+
+  oneway void shutdown ();
+};

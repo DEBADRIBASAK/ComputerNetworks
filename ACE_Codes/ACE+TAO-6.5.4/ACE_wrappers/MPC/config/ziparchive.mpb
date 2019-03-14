@@ -1,0 +1,6 @@
+// -*- MPC -*-
+feature(ziparchive) {
+  includes += $(ZIPARCHIVEROOT)/.
+  libpaths += $(ZIPARCHIVEROOT)/lib
+  lit_libs += ziparch
+}

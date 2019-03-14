@@ -1,0 +1,17 @@
+// -*- MPC -*-
+project(*server): avstreamsexe {
+  exename  = server
+
+  Source_Files {
+    server.cpp
+  }
+}
+
+project(*ftp): avstreamsexe {
+  exename  = ftp
+
+  Source_Files {
+    ftp.cpp
+  }
+}
+

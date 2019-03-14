@@ -1,0 +1,8 @@
+
+module Test
+{
+  interface bogus
+  {
+    void noop();
+  };
+};

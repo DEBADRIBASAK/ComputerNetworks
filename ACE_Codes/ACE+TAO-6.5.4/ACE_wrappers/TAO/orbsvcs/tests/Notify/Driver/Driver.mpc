@@ -1,0 +1,8 @@
+// -*- MPC -*-
+project (Notify_Test_Driver): notifytest {
+  exename  = Notify_Tests_Driver
+
+  Source_Files {
+  main.cpp     
+  }
+}

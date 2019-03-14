@@ -1,0 +1,4 @@
+
+interface Hello {
+  void moo ();
+};

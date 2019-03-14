@@ -1,0 +1,8 @@
+//
+// Client interface definition.
+
+
+interface client
+{
+  void test_reply (in string msg);
+};

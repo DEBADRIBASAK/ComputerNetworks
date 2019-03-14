@@ -1,0 +1,5 @@
+// -*- MPC -*-
+feature (nddsmonitor) : nddslib {
+  libs += rtimonitoring
+}
+

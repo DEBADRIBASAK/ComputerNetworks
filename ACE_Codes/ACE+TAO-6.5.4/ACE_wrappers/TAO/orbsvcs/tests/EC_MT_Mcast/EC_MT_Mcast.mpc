@@ -1,0 +1,4 @@
+// -*- MPC -*-
+project(EC_MT_Mcast): rteventexe, rtevent_serv, messaging, strategies {
+  exename  = MCast
+}

@@ -1,0 +1,8 @@
+// -*- MPC -*-
+project(*Client): taoclient, codecfactory {
+  Source_Files {
+    testC.cpp
+    client.cpp
+  }
+}
+

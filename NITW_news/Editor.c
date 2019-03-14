@@ -73,22 +73,7 @@ int main(int argc, char const *argv[])
 		perror("Message queue not created");
 		exit(0);
 	}
-	semid = semget(k,2,IPC_CREAT|0666);
-	if(semid<0)
-	{
-		perror("Could not create semaphore");
-	}
-	union semun tmp;
-	tmp.val = 1;
-	if(semctl(semid,0,SETVAL,tmp)<0)
-	{
-		perror("Could not set values");
-	}
-	tmp.val = 1;
-	if(semctl(semid,1,SETVAL,tmp)<0)
-	{
-		perror("Could not set values");
-	}
+
 	p = (struct Shmstr*)shmat(shmid,NULL,0);
 	if(p==NULL)
 	{

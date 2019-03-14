@@ -1,0 +1,4 @@
+// -*- MPC -*-
+workspace {
+  cmdline += -include $PWD/../tests    // for notifytest.mpb
+}

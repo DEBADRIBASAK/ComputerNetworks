@@ -1,0 +1,12 @@
+// -*- C++ -*-
+module warehouse
+{
+  interface inventory
+  {
+    boolean getCDinfo (in string artist,
+                       inout string title,
+                       out float price);
+  };
+};
+
+

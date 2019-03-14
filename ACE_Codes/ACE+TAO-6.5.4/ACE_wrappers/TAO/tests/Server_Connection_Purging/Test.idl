@@ -1,0 +1,9 @@
+interface test
+{
+  /*
+   * A simple remote operation..
+   */
+  void send_stuff(in string foo);
+
+  oneway void shutdown ();
+};

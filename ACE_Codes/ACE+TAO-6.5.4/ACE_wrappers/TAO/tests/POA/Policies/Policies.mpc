@@ -1,0 +1,4 @@
+// -*- MPC -*-
+project(POA*): taoserver, pi_server, avoids_corba_e_micro {
+  exename = Policies
+}

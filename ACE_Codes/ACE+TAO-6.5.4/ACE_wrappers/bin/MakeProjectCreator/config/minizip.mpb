@@ -1,0 +1,6 @@
+// -*- MPC -*-
+project {
+  after    += minizip
+  libs     += minizip
+  includes += $(ACE_ROOT)/contrib
+}

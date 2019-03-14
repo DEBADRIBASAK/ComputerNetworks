@@ -1,0 +1,10 @@
+
+/// Put the interfaces in a module, to avoid global namespace pollution
+module Test
+{
+  /// A very simple empty interface
+  interface Foo
+  {
+
+  };
+};

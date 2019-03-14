@@ -1,0 +1,6 @@
+interface test
+{
+  void method ();
+
+  oneway void shutdown ();
+};

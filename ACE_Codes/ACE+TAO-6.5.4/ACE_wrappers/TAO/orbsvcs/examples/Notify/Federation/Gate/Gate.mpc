@@ -1,0 +1,5 @@
+//  -*- MPC -*-
+project(Gate) : rmcast, orbsvcsexe, notification, notification_skel {
+  sharedname   = Gate
+  dynamicflags += GATE_BUILD_DLL
+}

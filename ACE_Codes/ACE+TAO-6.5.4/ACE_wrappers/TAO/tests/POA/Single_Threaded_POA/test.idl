@@ -1,0 +1,4 @@
+interface test
+{
+  void method ();
+};

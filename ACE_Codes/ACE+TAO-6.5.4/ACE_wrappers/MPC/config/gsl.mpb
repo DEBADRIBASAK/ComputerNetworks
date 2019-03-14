@@ -1,0 +1,4 @@
+// -*- MPC -*-
+feature(gsl) {
+  lit_libs += gsl
+}

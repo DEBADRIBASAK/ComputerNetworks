@@ -1,0 +1,17 @@
+// -*- MPC -*-
+project(*send): avstreamsexe {
+  exename  = sender
+
+  Source_Files {
+    sender.cpp
+  }
+}
+
+project(*recv): avstreamsexe {
+  exename  = receiver
+
+  Source_Files {
+    receiver.cpp
+  }
+}
+

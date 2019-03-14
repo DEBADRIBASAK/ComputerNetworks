@@ -1,0 +1,9 @@
+/*
+ */
+
+interface SLevel1_Server
+{
+  boolean authorize_level1 ();
+
+  boolean authorize_level2 ();
+};

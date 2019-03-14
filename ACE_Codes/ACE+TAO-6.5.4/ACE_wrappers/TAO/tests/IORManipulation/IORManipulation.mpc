@@ -1,0 +1,4 @@
+// -*- MPC -*-
+project(*IORTest) : taoexe, iormanip {
+  exename  = IORTest
+}

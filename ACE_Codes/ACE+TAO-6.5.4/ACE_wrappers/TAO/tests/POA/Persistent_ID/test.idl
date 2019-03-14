@@ -1,0 +1,7 @@
+interface test
+{
+  void method ();
+  test create_POA ();
+  void destroy_POA ();
+  void shutdown ();
+};

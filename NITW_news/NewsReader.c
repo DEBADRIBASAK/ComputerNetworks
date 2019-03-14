@@ -89,7 +89,7 @@ int perform_live_telecast(int portno)
 	}
 	else
 	{
-		kill(p->n[(ind+1)%2],SIGUSR1);
+		//kill(p->n[(ind+1)%2],SIGUSR1);
 		kill(p->editor,SIGUSR1);
 		printf("Socket created successfully...\n");
 		struct sockaddr_in addr;
@@ -128,11 +128,11 @@ int perform_live_telecast(int portno)
 				sleep(1);
 			}
 			printf("Sending signal to my collegue..\n");
-			kill(p->n[(ind+1)%2],SIGUSR2);
+			//kill(p->n[(ind+1)%2],SIGUSR2);
 			return 1;
 		}
 		
-		kill(p->n[(ind+1)%2],SIGUSR2);
+		//kill(p->n[(ind+1)%2],SIGUSR2);
 		return 0;
 	}
 	return 0;
@@ -168,7 +168,7 @@ int main(int argc, char const *argv[])
 		perror("Message queue not created");
 		exit(0);
 	}
-	semid = semget(k,2,IPC_CREAT|0666);
+	semid = semget(k,3,IPC_CREAT|0666);
 	if(semid<0)
 	{
 		perror("Could not create semaphore");
@@ -198,9 +198,10 @@ int main(int argc, char const *argv[])
 
 	while(1)
 	{
-	b.sem_num = 1;
-	b.sem_op = -1;
-	b.sem_flg = 0;
+		b.sem_num = ind+1;
+		b.sem_op = -1;
+		b.sem_flg = 0;
+		semop(semid,&b,1);
 		if(msgrcv(msqid,&A,sizeof(A.buffer),pid,0)<0)
 		{
 			perror("Could not receive message");
@@ -233,9 +234,10 @@ int main(int argc, char const *argv[])
 				}
 			}
 		}
-		b.sem_num = 1;
-	b.sem_op = 1;
-	b.sem_flg = 0;
+		b.sem_num = 2-ind;
+		b.sem_op = 1;
+		b.sem_flg = 0;
+		semop(semid,&b,1);
 		sleep(1);
 	}
 	return 0;

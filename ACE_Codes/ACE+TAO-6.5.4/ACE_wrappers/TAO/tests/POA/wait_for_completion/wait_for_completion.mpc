@@ -1,0 +1,4 @@
+// -*- MPC -*-
+project(POA*): taoserver {
+  exename = wait_for_completion
+}

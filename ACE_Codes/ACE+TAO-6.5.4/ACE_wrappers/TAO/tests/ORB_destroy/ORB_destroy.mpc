@@ -1,0 +1,5 @@
+// -*- MPC -*-
+project: taoserver {
+  exename = ORB_destroy
+}
+

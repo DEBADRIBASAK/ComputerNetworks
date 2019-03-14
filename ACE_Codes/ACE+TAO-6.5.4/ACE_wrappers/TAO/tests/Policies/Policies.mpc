@@ -1,0 +1,4 @@
+// -*- MPC -*-
+project(Policies Manipulation): taoserver, messaging {
+  exename   = Manipulation
+}

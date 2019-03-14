@@ -1,0 +1,293 @@
+Mon May 21 14:33:24 UTC 2018  Adam Mitz  <mitza@objectcomputing.com>
+
+        * templates/vc10.mpd:
+
+          Generate less XML for custom files with no build step.
+
+        * templates/vs2017platforms.mpt:
+
+          Updated default SDK version to match the current update of VS2017.
+
+Wed May 16 14:43:23 UTC 2018  Chad Elliott  <elliott_c@ociweb.com>
+
+        * docs/templates/uvis.txt:
+
+          Documented the uvis.mpd template.
+
+Fri Jan 19 01:52:54 UTC 2018  Frederick Hornsey <fred@hornsey.us>
+
+        * config/wireshark.mpb:
+        * config/global.features:
+
+          When using Wireshark builds built using Autoconf (like Linux),
+          Wireshark 1.x on Windows, and systems where Wireshark headers are
+          installed, use the wireshark feature as before.
+
+          When using Wireshark builds built with CMake use wireshark_cmake
+          set to the Wireshark source, $WIRESHARK_BUILD set to the build
+          directory and $WIRESHARK_LIB set to relative path inside the build
+          directory that contains the Wireshark dynamic libraries. These
+          parameters replace wireshark2, $WIRESHARK2_BUILD, and
+          $WIRESHARK2_BIN.
+
+Mon Jan 15 17:31:47 UTC 2018  Frederick Hornsey <fred@hornsey.us>
+
+        * config/wireshark.mpb:
+        * config/global.features:
+
+          Added parameters for Wireshark 2 on Windows.
+            wireshark2
+            wireshark2_build
+            wireshark2_bin
+
+Thu Jan 11 18:43:46 UTC 2018  Adam Mitz  <mitza@ociweb.com>
+
+        * clone_build_tree.pl:
+
+          Treat the .git directory the same as .svn and CVS.
+
+Mon Aug  7 14:23:34 UTC 2017  Adam Mitz  <mitza@ociweb.com>
+
+        * docs/README:
+
+          Updated README for vc/vs version numbers.
+
+Fri May 12 11:12:03 UTC 2017  Chad Elliott  <elliott_c@ociweb.com>
+
+        * templates/uvis.mpd:
+
+          Added 'linkflags' to affect the linker options.
+
+Thu Mar 23 19:33:48 UTC 2017  Adam Mitz  <mitza@ociweb.com>
+
+        * config/pin_base.mpb:
+        * config/pin_tool.mpb:
+        * config/winapp.mpb:
+        * config/wireshark.mpb:
+        * docs/README:
+        * docs/html/MakeProjectCreator.html:
+        * modules/VS2017ProjectCreator.pm:
+        * modules/VS2017WorkspaceCreator.pm:
+        * bin/registry.pl:
+        * templates/vs2017dll.mpt:
+        * templates/vs2017exe.mpt:
+        * templates/vs2017lib.mpt:
+        * templates/vs2017libexe.mpt:
+        * templates/vs2017platforms.mpt:
+
+          Renamed "-type vc15" to vs2017.  Updated documentation.
+
+        * modules/VC15ProjectCreator.pm:
+        * modules/VC15WorkspaceCreator.pm:
+        * templates/vc15dll.mpt:
+        * templates/vc15exe.mpt:
+        * templates/vc15lib.mpt:
+        * templates/vc15libexe.mpt:
+        * templates/vc15platforms.mpt:
+
+          Removed/renamed these files.
+
+Mon Feb 13 21:58:22 UTC 2017  Adam Mitz  <mitza@ociweb.com>
+
+        * modules/ProjectCreator.pm:
+
+          Enhanced handling of 'gendir' for project types that use
+          "combined custom" (mostly vc >= 10).  Need to track common
+          'gendir' for output file and also get the input-file-specific
+          value of 'gendir' to replace the <%gendir%> token.
+
+Tue Feb  7 15:36:45 UTC 2017  Chad Elliott  <elliott_c@ociweb.com>
+
+        * templates/uvis.mpd:
+
+          Updated to support the 'prebuild' keyword.
+
+Mon Jan 30 18:41:22 UTC 2017  Chad Elliott  <elliott_c@ociweb.com>
+
+        * templates/uvis.mpd:
+
+          Added template variables to set the ram sizes and a scatter file.
+
+Tue Jan 17 15:16:06 UTC 2017  Chad Elliott  <elliott_c@ociweb.com>
+
+        * modules/UVISWorkspaceCreator.pm:
+
+          Convert slashes in the project path to backslashes.
+
+        * templates/uvis.mpd:
+
+          Support building assembly files and only put the device and CMSIS
+          sections in if the project is an executable and there are
+          device_files.
+
+Thu Nov 17 13:20:23 UTC 2016  Chad Elliott  <elliott_c@ociweb.com>
+
+        * templates/uvis.mpd:
+
+          Added the ability to set the IRAM1 and IRAM2 sizes.
+
+Wed Nov 16 21:50:12 UTC 2016  Chad Elliott  <elliott_c@ociweb.com>
+
+        * templates/uvis.mpd:
+        * templates/uvis.mpt:
+
+          Added support for user defined DEVICE_Files and CMSIS_Files to
+          support building for specific targets.
+
+Wed Nov 16 14:44:33 UTC 2016  Chad Elliott  <elliott_c@ociweb.com>
+
+        * modules/Depgen/Driver.pm:
+        * modules/Depgen/MakeDependencyWriter.pm:
+
+          Added an option to override the creation of Cygwin paths on
+          Windows.
+
+        * templates/make.mpd:
+        * templates/makedll.mpt:
+
+          Corrected linking with the Keil compiler.
+
+        * templates/uvis.mpd:
+
+          Fixed the implementation of the pure_libs keyword.
+
+Thu Nov 10 18:00:05 UTC 2016  Chad Elliott  <elliott_c@ociweb.com>
+
+        * templates/uvis.mpd:
+
+          Updated to support 'postbuild' and to support linking in libraries
+          to an executable.
+
+Wed Nov  9 17:57:54 UTC 2016  Chad Elliott  <elliott_c@ociweb.com>
+
+        * docs/USAGE:
+        * modules/UVISProjectCreator.pm:
+        * modules/UVISWorkspaceCreator.pm:
+        * templates/uvis.mpd:
+        * templates/uvis.mpt:
+
+          Added support for the Keil uVision 5 IDE.
+
+Mon Oct 31 16:16:07 UTC 2016  Chad Elliott  <elliott_c@ociweb.com>
+
+        * templates/makedll.mpt:
+
+          Updated to change the platform for the Keil compiler to something
+          specific to the operating system and architecture.
+
+Wed Oct 26 11:31:35 UTC 2016  Chad Elliott  <elliott_c@ociweb.com>
+
+        * templates/makedll.mpt:
+
+          Added support for the Keil compiler.
+
+Mon Sep 26 21:08:34 UTC 2016  Adam Mitz  <mitza@ociweb.com>
+
+        * modules/ProjectCreator.pm (generated_source_listed):
+
+          From Chad Elliott: removed an optimization that was invalid
+
+        * modules/ProjectCreator.pm (other changes):
+        * modules/CommandHelper.pm:
+
+          Allow CommandHelper::get_output to return more detailed
+          dependency info.  See comments in that function for usage.
+
+Mon Mar  7 19:40:37 UTC 2016  Chad Elliott  <elliott_c@ociweb.com>
+
+        * modules/ProjectCreator.pm:
+
+          Fixed an issue with custom_only projects that define empty
+          Source_Files sections.  For these projects, an empty section is
+          equivalent to a defaulted section as they do not serve any real
+          purpose.
+
+        * templates/make.mpd:
+
+          Fixed spacing.
+
+Wed Feb 17 19:19:40 UTC 2016  Chad Elliott  <elliott_c@ociweb.com>
+
+        * modules/ProjectCreator.pm:
+
+          When creating a project with only custom projects, keep explicitly
+          added files when removing non-custom_only aspects of the project.
+
+Tue Sep  8 13:16:45 UTC 2015  Chad Elliott  <elliott_c@ociweb.com>
+
+        * templates/makedll.mpt:
+
+          Added a C macro that corresponds to the coverage and profiling
+          options.
+
+Mon Jul 27 20:04:02 UTC 2015  Chad Elliott  <elliott_c@ociweb.com>
+
+        * modules/Creator.pm:
+        * modules/TemplateParser.pm:
+
+          Fixed a bug where scoped names would get added to the non-scoped
+          name in every scope.  This bug was introduced by me in my change
+          from Fri Jul  6 16:46:47 UTC 2012.
+
+Mon Feb 23 12:34:28 UTC 2015  Chad Elliott  <elliott_c@ociweb.com>
+
+        * modules/WorkspaceCreator.pm:
+
+          Do not completely override -value_template and -value_project
+          settings given on the actual MPC command line with workspace
+          'cmdline' settings.  They are now merged together.
+
+Thu Jan 08 07:50:12 UTC 2015  Johnny Willemsen  <jwillemsen@remedy.nl
+
+        * All files:
+          Removed subversion Id tag
+
+Thu Nov 20 15:05:35 UTC 2014  Chad Elliott  <elliott_c@ociweb.com>
+
+        * modules/VC8WorkspaceCreator.pm:
+
+          Completed the changes for the entry below.  The original
+          modification was not complete.
+
+Thu Nov 20 11:56:03 UTC 2014  Chad Elliott  <elliott_c@ociweb.com>
+
+        * modules/ProjectCreator.pm:
+
+          Made a tiny grammatical correction in an informational message.
+
+        * modules/VC8WorkspaceCreator.pm:
+
+          When creating external dependencies, only create a full path using
+          the output directory or current directory if the project name is
+          not a full path itself.  Thank you to Manfred Peter <manfredpeter
+          at siemens dot com> for finding and reporting this bug.
+
+Wed Nov  5 08:12:27 UTC 2014  Johnny Willemsen  <jwillemsen@remedy.nl>
+
+        * templates/vc1xdll.mpt:
+        * templates/vc1xexe.mpt:
+          Set same pdbc/pdbl settings to generate pdb files as we do
+          with older vc versions
+
+Wed Nov  5 08:03:49 UTC 2014  Johnny Willemsen  <jwillemsen@remedy.nl>
+
+        * docs/templates/vc10.txt:
+        * templates/vc10.mpd:
+        * templates/vc1xdll.mpt:
+        * templates/vc1xexe.mpt:
+        * templates/vc7dll.mpt:
+          With TAO we have the case that exe and dll have the same
+          name which causes problems with the pdb file. Add a new
+          use_pdb_modifier which we enable by default for vc1x, it
+          adds _dll to the pdb file for a dll, and _exe to the pdb
+          file for a exe
+
+Wed Oct  8 13:41:24 UTC 2014  Chad Elliott  <elliott_c@ociweb.com>
+
+        * MPC version 4.1.0 released.
+
+Local Variables:
+mode: change-log
+add-log-time-format: (lambda () (progn (setq tz (getenv TZ)) (set-time-zone-rule UTC) (setq time (format-time-string %a %b %e %H:%M:%S %Z %Y (current-time))) (set-time-zone-rule tz) time))
+indent-tabs-mode: nil
+End:

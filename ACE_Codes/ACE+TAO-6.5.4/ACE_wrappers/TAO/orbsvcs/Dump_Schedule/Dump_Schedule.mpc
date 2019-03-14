@@ -1,0 +1,4 @@
+// -*- MPC -*-
+project : orbsvcsexe, install, rtsched, naming, svc_utils, iortable, portableserver {
+  exename  = tao_dump_schedule
+}

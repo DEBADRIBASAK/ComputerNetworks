@@ -1,0 +1,4 @@
+// -*- MPC -*-
+feature(ruby) {
+  lit_libs += ruby
+}

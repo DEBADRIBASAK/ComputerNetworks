@@ -1,0 +1,8 @@
+
+interface Receiver
+{
+  typedef sequence<octet> Payload;
+
+  /// A simple remote call
+  void receive_payload (in Receiver::Payload pay);
+};
