@@ -9,7 +9,7 @@
 
 struct Shmstr
 {
-	int n[2];
+	int n[3];
 	int editor;
 	int no_of_live_telecasts;
 };
@@ -73,7 +73,11 @@ int main(int argc, char const *argv[])
 		perror("Message queue not created");
 		exit(0);
 	}
-
+	semid = semget(k,4,IPC_CREAT|0666);
+	if(semid<0)
+	{
+		perror("Could not create semaphore");
+	}
 	p = (struct Shmstr*)shmat(shmid,NULL,0);
 	if(p==NULL)
 	{
@@ -127,7 +131,7 @@ int main(int argc, char const *argv[])
 					}
 					else
 					{
-						A.type = n[turn];
+						A.type = 10;
 						if(msgsnd(msqid,&A,sizeof(A.buffer),0)<0)
 						{
 							perror("Could not write to message queue");

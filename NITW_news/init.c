@@ -20,7 +20,7 @@ int main(int argc, char const *argv[])
 		perror("Could not make the key");
 		exit(0);
 	}
-	int semid = semget(k,3,IPC_CREAT|0666);
+	int semid = semget(k,4,IPC_CREAT|0666);
 	if(semid<0)
 	{
 		perror("Could not create semaphore");
@@ -31,13 +31,18 @@ int main(int argc, char const *argv[])
 	{
 		perror("Could not set values");
 	}
-	tmp.val = 1;
+	tmp.val = 0;
 	if(semctl(semid,1,SETVAL,tmp)<0)
 	{
 		perror("Could not set values");
 	}
-	tmp.val = 0;
+	tmp.val = 1;
 	if(semctl(semid,2,SETVAL,tmp)<0)
+	{
+		perror("Could not set values");
+	}
+	tmp.val = 0;
+	if(semctl(semid,3,SETVAL,tmp)<0)
 	{
 		perror("Could not set values");
 	}

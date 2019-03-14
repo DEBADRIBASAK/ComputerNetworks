@@ -22,7 +22,7 @@ struct msgstr
 	long type;
 	char buffer[256];
 };
-
+struct msgstr A;
 struct Shmstr *p;
 
 int shmid,msqid,semid;
@@ -74,12 +74,6 @@ void sig_handler(int alrm)
 	printf("Exiting..\n");
 }
 
-void sig_handler2(int a)
-{
-	sig_rcv = (sig_rcv+1)%2;
-	printf("Restarting reading...\n");
-}
-
 int perform_live_telecast(int portno)
 {
 	sfd = socket(AF_INET,SOCK_STREAM,0);
@@ -128,7 +122,7 @@ int perform_live_telecast(int portno)
 				sleep(1);
 			}
 			printf("Sending signal to my collegue..\n");
-			//kill(p->n[(ind+1)%2],SIGUSR2);
+			//kill(p->n[(ind+1)%3],SIGUSR2);
 			return 1;
 		}
 		
@@ -138,70 +132,9 @@ int perform_live_telecast(int portno)
 	return 0;
 }
 
-
-int main(int argc, char const *argv[])
+void sig_handler2(int a)
 {
-	signal(SIGUSR1,sig_handler);
-	signal(SIGUSR2,sig_handler2);
-	if(argc<2)
-	{
-		printf("Usage: ./NewsReader [INDEX_POSITION]\n");
-		exit(0);
-	}
-	ind = atoi(argv[1]);
-
-	key_t k = ftok(PATH,PROJID);
-	if(k<0)
-	{
-		perror("Could not make the key");
-		exit(0);
-	}
-	shmid = shmget(k,sizeof(struct Shmstr),IPC_CREAT|0666);
-	if(shmid<0)
-	{
-		perror("Could not make the shared memory");
-		exit(0);
-	}
-	msqid = msgget(k,IPC_CREAT|0666);
-	if(msqid<0)
-	{
-		perror("Message queue not created");
-		exit(0);
-	}
-	semid = semget(k,4,IPC_CREAT|0666);
-	if(semid<0)
-	{
-		perror("Could not create semaphore");
-	}
-	//union semun tmp;
-	p = (struct Shmstr*)shmat(shmid,NULL,0);
-	if(p==NULL)
-	{
-		perror("Could not attach");
-		exit(0);
-	}
-
-	p->n[ind] = getpid();
-	pid = (long)getpid();
-
-	struct msgstr A;
-	//int sfd;
-
-	mkfifo(SCREEN,O_CREAT|0666);
-	scrfd = open(SCREEN,O_WRONLY);
-	if(scrfd<0)
-	{
-		perror("Could not open screen!");
-		exit(0);
-	}
-	char num[300];
-
-	while(1)
-	{
-		b.sem_num = ind+1;
-		b.sem_op = -1;
-		b.sem_flg = 0;
-		semop(semid,&b,1);
+		char num[300];
 		if(msgrcv(msqid,&A,sizeof(A.buffer),0,0)<0)
 		{
 			perror("Could not receive message");
@@ -233,12 +166,77 @@ int main(int argc, char const *argv[])
 					printf("Showing on screen\n");
 				}
 			}
+			kill(p->n[(ind+1)%3],SIGUSR2);
 		}
-		b.sem_num = (ind+1)%3+1;;
-		b.sem_op = 1;
-		b.sem_flg = 0;
-		semop(semid,&b,1);
-		sleep(1);
+}
+
+
+
+
+int main(int argc, char const *argv[])
+{
+	signal(SIGUSR1,sig_handler);
+	signal(SIGUSR2,sig_handler2);
+	if(argc<2)
+	{
+		printf("Usage: ./NewsReader [INDEX_POSITION]\n");
+		exit(0);
+	}
+	ind = atoi(argv[1]);
+
+	key_t k = ftok(PATH,PROJID);
+	if(k<0)
+	{
+		perror("Could not make the key");
+		exit(0);
+	}
+	shmid = shmget(k,sizeof(struct Shmstr),IPC_CREAT|0666);
+	if(shmid<0)
+	{
+		perror("Could not make the shared memory");
+		exit(0);
+	}
+	msqid = msgget(k,IPC_CREAT|0666);
+	if(msqid<0)
+	{
+		perror("Message queue not created");
+		exit(0);
+	}
+	// semid = semget(k,4,IPC_CREAT|0666);
+	// if(semid<0)
+	// {
+	// 	perror("Could not create semaphore");
+	// }
+	//union semun tmp;
+	p = (struct Shmstr*)shmat(shmid,NULL,0);
+	if(p==NULL)
+	{
+		perror("Could not attach");
+		exit(0);
+	}
+
+	p->n[ind] = getpid();
+	pid = (long)getpid();
+
+	
+	//int sfd;
+
+	mkfifo(SCREEN,O_CREAT|0666);
+	scrfd = open(SCREEN,O_WRONLY);
+	if(scrfd<0)
+	{
+		perror("Could not open screen!");
+		exit(0);
+	}
+	
+	if(ind==1)
+	{
+		sig_handler2(10);
+	}
+	while(1)
+	{
+		pause();
+		kill(p->n[(ind+1)%3],SIGUSR2);
 	}
 	return 0;
 }
