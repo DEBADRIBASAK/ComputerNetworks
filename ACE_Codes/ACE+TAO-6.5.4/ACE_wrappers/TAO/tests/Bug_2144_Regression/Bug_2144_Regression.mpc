@@ -1,8 +1,0 @@
-// -*- MPC -*-
-project (*Client) : taoclient, valuetype {
-   exename    = test
-   Source_Files {
-      testC.cpp
-      test.cpp
-   }
-}

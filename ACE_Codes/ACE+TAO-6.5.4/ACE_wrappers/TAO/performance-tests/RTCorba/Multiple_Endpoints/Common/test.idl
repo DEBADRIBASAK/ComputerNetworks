@@ -1,7 +1,0 @@
-
-interface Test
-{
-  void test_method (in long id);
-
-  void shutdown (in string orb_id);
-};

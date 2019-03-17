@@ -1,4 +1,0 @@
-// -*- MPC -*-
-project: qt4_gui {
-  lit_libs += QtOpenGL$(QT_CFG)
-}

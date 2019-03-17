@@ -1,5 +1,0 @@
-// -*- MPC -*-
-project: rtevent_serv {
-  sharedname = ECMcastTests
-  dynamicflags   = ECMCASTTESTS_BUILD_DLL
-}

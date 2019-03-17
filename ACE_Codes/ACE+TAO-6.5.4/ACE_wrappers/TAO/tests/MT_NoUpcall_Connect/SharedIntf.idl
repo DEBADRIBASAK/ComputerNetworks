@@ -1,7 +1,0 @@
-module Test_Idl {
-  interface SharedIntf {
-    void do_upcall ();
-    void ping();
-    oneway void farewell();
-  };
-};

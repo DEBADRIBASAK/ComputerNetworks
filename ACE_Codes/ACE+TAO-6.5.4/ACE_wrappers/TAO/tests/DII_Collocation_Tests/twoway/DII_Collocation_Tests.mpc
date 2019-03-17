@@ -1,4 +1,0 @@
-// -*- MPC -*-
-project(*twoway) : taoserver,  dynamicinterface, avoids_minimum_corba{
-  exename = Collocated_Test
-}

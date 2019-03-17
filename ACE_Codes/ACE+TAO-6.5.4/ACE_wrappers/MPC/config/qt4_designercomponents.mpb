@@ -1,4 +1,0 @@
-// -*- MPC -*-
-project: qt4_designer {
-  lit_libs += QtDesignerComponents$(QT_CFG)
-}

@@ -1,5 +1,0 @@
-// -*- MPC -*-
-project: aceexe {
-  exename = mkcsregdb
-  avoids += uses_wchar
-}

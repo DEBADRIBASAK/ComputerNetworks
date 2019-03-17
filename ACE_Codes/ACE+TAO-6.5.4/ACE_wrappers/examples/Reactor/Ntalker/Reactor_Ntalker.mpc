@@ -1,4 +1,0 @@
-// -*- MPC -*-
-project : aceexe {
-  exename = ntalker
-}

@@ -1,3 +1,0 @@
-project: pcre {
-  lit_libs += pcreposix$(PCRE_VERSION)
-}

@@ -1,3 +1,0 @@
-project(*Client): loadbalancing {
-  exename = client
-}

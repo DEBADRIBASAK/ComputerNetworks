@@ -1,4 +1,0 @@
-// -*- MPC -*-
-project : orbsvcsexe, dslogadmin, naming, dynamicany, iortable, etcl {
-    exename = client
-}

@@ -1,3 +1,0 @@
-// -*- MPC -*-
-conditional_include "cccommon"
-conditional_include "user_cclib"

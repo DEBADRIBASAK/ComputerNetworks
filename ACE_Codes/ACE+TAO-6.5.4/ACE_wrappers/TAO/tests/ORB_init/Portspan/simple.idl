@@ -1,3 +1,0 @@
-interface simple {
-    void test();
-};

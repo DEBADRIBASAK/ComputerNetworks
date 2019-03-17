@@ -1,6 +1,0 @@
-#include <orb.idl>
-
-interface foo {
-     void op () raises (CORBA::WrongTransaction);
-};
-

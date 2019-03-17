@@ -1,8 +1,0 @@
-// -*- MPC -*-
-project(*Client) : namingexe, portableserver, utils, security, ssliop {
-  exename = client
-  Source_Files {
-    client.cpp
-  }
-}
-

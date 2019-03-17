@@ -1,5 +1,0 @@
-#include "included.idl"
-
-interface Child : Parent
-{
-};

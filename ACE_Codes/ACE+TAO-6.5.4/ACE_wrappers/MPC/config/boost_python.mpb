@@ -1,4 +1,0 @@
-// -*- MPC -*-
-project: boost_base {
-  lit_libs += $(BOOST_STATIC_LIB_PREFIX)boost_python$(BOOST_CFG)
-}

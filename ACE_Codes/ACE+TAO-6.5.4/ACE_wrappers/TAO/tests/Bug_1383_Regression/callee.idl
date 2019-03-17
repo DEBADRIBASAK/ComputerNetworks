@@ -1,3 +1,0 @@
-interface Callee {
-  void callback(in string message);
-};

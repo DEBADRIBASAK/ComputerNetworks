@@ -1,6 +1,0 @@
-// -*- MPC -*-
-project : interceptors, portableserver, valuetype, corba_messaging, orbsvcslib, pi {
-  after     += Security
-  libs      += TAO_Security
-  tagchecks += Security
-}

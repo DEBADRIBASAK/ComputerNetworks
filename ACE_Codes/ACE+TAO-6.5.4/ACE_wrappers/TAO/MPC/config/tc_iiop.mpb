@@ -1,5 +1,0 @@
-// -*- MPC -*-
-project: tc {
-  after   += TC_IIOP
-  libs    += TAO_TC_IIOP
-}

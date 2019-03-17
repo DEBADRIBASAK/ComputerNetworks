@@ -1,9 +1,0 @@
-// -*- MPC -*-
-project(*Client): taoidldefaults, taoclient, messaging {
-  idlflags += -Sa -St
-
-  Source_Files {
-    HelloC.cpp
-    client.cpp
-  }
-}

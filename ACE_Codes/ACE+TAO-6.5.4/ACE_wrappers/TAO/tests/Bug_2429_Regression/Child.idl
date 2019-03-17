@@ -1,6 +1,0 @@
-#include "Parent.idl"
-
-interface Child : Parent
-{
-  void childMethod ();
-};

@@ -1,8 +1,0 @@
-interface W32_Test_Interface
-{
-  // = TITLE
-  //    Defines an interface that returns a response string.
-
-  string getresponse (in long respnr);
-};
-

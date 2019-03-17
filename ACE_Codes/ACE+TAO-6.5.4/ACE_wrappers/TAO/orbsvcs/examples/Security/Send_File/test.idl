@@ -1,9 +1,0 @@
-/*
- */
-
-interface Simple_Server
-{
-  void send_line (in string line);
-
-  oneway void shutdown ();
-};

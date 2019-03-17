@@ -1,7 +1,0 @@
-// -*- MPC -*-
-project: xerces {
-  requires += xalanc
-  includes += $(XALANCROOT)/include
-  libpaths += $(XALANCROOT)/lib
-  lit_libs += xalan-c xalanMsg
-}

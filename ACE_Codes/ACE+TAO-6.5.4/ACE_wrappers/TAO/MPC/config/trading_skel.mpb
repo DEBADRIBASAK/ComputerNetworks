@@ -1,5 +1,0 @@
-// -*- MPC -*-
-project : orbsvcslib, trading, portableserver {
-  after     += CosTrading_Skel 
-  libs      += TAO_CosTrading_Skel
-}

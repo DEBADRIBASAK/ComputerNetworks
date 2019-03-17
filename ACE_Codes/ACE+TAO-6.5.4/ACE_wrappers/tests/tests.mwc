@@ -1,7 +1,0 @@
-//  -*- MPC -*-
-workspace {
-  exclude {
-    pharlap
-    log
-  }
-}

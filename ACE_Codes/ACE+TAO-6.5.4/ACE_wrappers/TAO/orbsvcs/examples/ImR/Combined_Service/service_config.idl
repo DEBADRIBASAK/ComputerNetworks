@@ -1,5 +1,0 @@
-// Just provides a corba interface to the ACE Service Configurator
-interface ServiceConfigurator {
-  long process_directive(in string s);
-  void reconfigure();
-};

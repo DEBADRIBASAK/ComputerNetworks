@@ -1,8 +1,0 @@
-project : erlang {
-  erlcflags              += -o ebin
-
-  Modify_Custom(Erlang) {
-    generic_pre_dirname   = ebin/
-    output_follows_input  = 0
-  }
-}

@@ -1,3 +1,0 @@
-This test uses the ImR to facilitate a restart of a killed server to
-verify that slot data in a PICurrent isn't lost during an automatic
-retry.

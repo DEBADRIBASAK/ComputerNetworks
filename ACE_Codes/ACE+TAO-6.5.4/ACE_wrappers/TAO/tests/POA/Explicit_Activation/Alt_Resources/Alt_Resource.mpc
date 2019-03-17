@@ -1,5 +1,0 @@
-// -*- MPC -*-
-project: taolib, wfmo {
-  sharedname = Alt_Resource_Factory
-  dynamicflags += Alt_Resource_Factory_BUILD_DLL
-}

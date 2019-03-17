@@ -1,9 +1,0 @@
-module SeqTest {
-  typedef sequence<long> LongSeq;
-
-  struct Node {
-    LongSeq ls;
-  };
-
-  typedef sequence<Node> NodeSeq;
-};

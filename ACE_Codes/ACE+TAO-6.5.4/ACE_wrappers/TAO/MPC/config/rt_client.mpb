@@ -1,4 +1,0 @@
-// -*- MPC -*-
-project : taoexe, negotiate_codesets, rtcorba {
-  exename = client
-}

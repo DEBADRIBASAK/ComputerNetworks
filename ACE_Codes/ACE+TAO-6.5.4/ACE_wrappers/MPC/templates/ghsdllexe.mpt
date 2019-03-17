@@ -1,4 +1,0 @@
-// -*- MPC -*-
-conditional_include "ghscommon"
-
-conditional_include "user_ghsdllexe"

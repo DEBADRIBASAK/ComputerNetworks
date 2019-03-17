@@ -1,4 +1,0 @@
-// -*- MPC -*-
-project: qt4_core {
-  lit_libs += QtNetwork$(QT_CFG)
-}

@@ -1,4 +1,0 @@
-
-interface Hello {
-  void moo ();
-};

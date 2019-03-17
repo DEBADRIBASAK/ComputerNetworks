@@ -1,5 +1,0 @@
-// -*- MPC -*-
-lib_prefix = lib
-lib_ext    = .a
-dll_ext    = .so
-exe_ext    =

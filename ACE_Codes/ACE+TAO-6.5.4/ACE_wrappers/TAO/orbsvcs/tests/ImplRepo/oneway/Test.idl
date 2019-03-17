@@ -1,7 +1,0 @@
-interface Test
-{
-  oneway void foo ();
-
-  short get_call_count ();
-
-};

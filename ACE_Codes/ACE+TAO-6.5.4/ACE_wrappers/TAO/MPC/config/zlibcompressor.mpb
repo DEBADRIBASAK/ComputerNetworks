@@ -1,6 +1,0 @@
-// -*- MPC -*-
-project : taolib, compression, ace_zlib {
-  requires += zlib
-  after   += ZlibCompressor
-  libs    += TAO_ZlibCompressor
-}

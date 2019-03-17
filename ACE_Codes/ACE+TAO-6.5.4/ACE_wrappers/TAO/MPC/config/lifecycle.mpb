@@ -1,6 +1,0 @@
-// -*- MPC -*-
-project : orbsvcslib, naming {
-  after     += CosLifeCycle
-  libs      += TAO_CosLifeCycle
-  tagchecks += LifeCycle
-}

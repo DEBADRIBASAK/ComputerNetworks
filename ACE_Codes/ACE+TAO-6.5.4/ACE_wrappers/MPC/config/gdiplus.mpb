@@ -1,6 +1,0 @@
-// -*- MPC -*-
-project {
-  specific (prop:windows) {
-    lit_libs += gdiplus
-  }
-}

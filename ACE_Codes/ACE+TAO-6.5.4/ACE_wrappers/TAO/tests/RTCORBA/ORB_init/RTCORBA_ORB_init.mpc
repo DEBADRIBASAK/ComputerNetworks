@@ -1,4 +1,0 @@
-project (ORB_init_RT) : rt_client {
-  exename = ORB_init
-}
-

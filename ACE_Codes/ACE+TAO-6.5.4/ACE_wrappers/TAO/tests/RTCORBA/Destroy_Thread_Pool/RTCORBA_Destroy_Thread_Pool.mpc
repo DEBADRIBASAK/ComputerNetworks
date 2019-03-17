@@ -1,6 +1,0 @@
-// -*- MPC -*-
-project(*Server): rt_server {
-  exename = Destroy_Thread_Pool
-}
-
-

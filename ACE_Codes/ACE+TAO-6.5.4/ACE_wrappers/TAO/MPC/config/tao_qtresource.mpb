@@ -1,6 +1,0 @@
-// -*- MPC -*-
-project : taolib, ace_qt4reactor {
-  requires += tao_qtresource
-  after    += TAO_QtResource
-  libs     += TAO_QtResource
-}

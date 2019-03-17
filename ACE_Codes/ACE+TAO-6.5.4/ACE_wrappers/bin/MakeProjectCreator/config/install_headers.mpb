@@ -1,6 +1,0 @@
-// -*- MPC -*-
-project {
-  specific {
-    install_headers = 1
-  }
-}

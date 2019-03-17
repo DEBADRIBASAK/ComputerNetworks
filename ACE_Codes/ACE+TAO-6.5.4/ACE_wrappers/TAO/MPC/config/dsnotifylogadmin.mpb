@@ -1,5 +1,0 @@
-// -*- MPC -*-
-project : orbsvcslib, dslogadmin, dseventlogadmin, event, notification {
-  after      += DsNotifyLogAdmin
-  libs       += TAO_DsNotifyLogAdmin
-}

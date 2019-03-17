@@ -1,6 +1,0 @@
-// -*- MPC -*-
-project : orbsvcslib {
-  after     += CosConcurrency
-  libs      += TAO_CosConcurrency
-  tagchecks += Concurrency
-}

@@ -1,8 +1,0 @@
-interface test
-{
-  short method ();
-
-  void prioritized_method ();
-
-  void shutdown ();
-};

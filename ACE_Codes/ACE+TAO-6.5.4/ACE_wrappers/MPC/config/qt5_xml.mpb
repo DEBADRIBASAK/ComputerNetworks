@@ -1,4 +1,0 @@
-project: qt5_core {
-  libs += Qt5Xml
-}
-

@@ -1,6 +1,0 @@
-// -*- MPC -*-
-project : htbp {
-  after     += HTIOP
-  libs      += TAO_HTIOP
-  tagchecks += HTIOP
-}

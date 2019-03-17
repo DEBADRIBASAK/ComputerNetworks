@@ -1,2 +1,0 @@
-[alts]
-subjectAltName=DNS:*.ociweb.com,DNS:*.vanderbilt.edu,DNS:*.remedy.nl

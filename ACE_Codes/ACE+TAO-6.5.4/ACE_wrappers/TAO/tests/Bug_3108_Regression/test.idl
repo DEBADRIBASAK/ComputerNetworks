@@ -1,5 +1,0 @@
-interface test
-{
-  long test_method();
-  oneway void shutdown ();
-};

@@ -1,9 +1,0 @@
-#include "TreeBase.idl"
-
-//
-// A concrete node type
-//
-valuetype StringNode : BaseNode
-{
-  public string name;
-};

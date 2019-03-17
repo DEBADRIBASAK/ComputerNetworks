@@ -1,6 +1,0 @@
-// -*- MPC -*-
-project : orbsvcslib {
-  after     += CosProperty
-  libs      += TAO_CosProperty
-  tagchecks += Property
-}

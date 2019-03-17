@@ -1,4 +1,0 @@
-// -*- MPC -*-
-project : aceexe {
-  exename = server_loggerd
-}

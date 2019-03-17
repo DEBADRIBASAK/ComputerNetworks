@@ -1,4 +1,0 @@
-project: qt5_gui {
-  libs += Qt5Widgets
-}
-

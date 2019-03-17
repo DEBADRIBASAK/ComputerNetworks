@@ -1,3 +1,0 @@
-class USRoboticsVoiceModem : public RecordingDevice
-  {
-  };

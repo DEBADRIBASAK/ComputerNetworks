@@ -1,4 +1,0 @@
-// -*- MPC -*-
-feature(corba_e_micro) {
-  avoids += corba_e_micro
-}

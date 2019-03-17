@@ -1,4 +1,0 @@
-// -*- MPC -*-
-project : taoexe, install, svc_utils {
-  exename = tao_service
-}

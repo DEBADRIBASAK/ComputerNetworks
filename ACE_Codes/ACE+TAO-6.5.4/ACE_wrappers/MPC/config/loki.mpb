@@ -1,6 +1,0 @@
-// -*- MPC -*-
-project {
-  includes += $(LOKI_ROOT)/include
-  libpaths += $(LOKI_ROOT)/lib
-  lit_libs += loki
-}

@@ -1,5 +1,0 @@
-// -*- MPC -*-
-project: taoexe {
-  exename = ORB_init
-}
-

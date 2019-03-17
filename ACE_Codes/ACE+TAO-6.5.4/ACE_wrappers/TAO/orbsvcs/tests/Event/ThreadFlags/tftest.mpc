@@ -1,3 +1,0 @@
-project(TFTest): rteventexe, rtevent_serv {
-  exename = testflags 
-}

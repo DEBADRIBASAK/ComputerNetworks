@@ -1,4 +1,0 @@
-valuetype TestValuetype {
-  factory create(in boolean b, in short s);
-};
-

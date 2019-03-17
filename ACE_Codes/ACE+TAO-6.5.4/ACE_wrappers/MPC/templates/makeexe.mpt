@@ -1,3 +1,0 @@
-// -*- MPC -*-
-conditional_include "makedll"
-conditional_include "user_makeexe"

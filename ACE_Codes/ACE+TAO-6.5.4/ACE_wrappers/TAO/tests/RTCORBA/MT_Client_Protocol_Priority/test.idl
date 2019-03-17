@@ -1,9 +1,0 @@
-
-interface Test
-{
-  void test_method ();
-  // no-op.
-
-  oneway void shutdown ();
-  // Shut down the ORB.
-};

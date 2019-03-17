@@ -1,4 +1,0 @@
-// -*- MPC -*-
-feature(ec_typed_events) {
-  macros  += TAO_HAS_TYPED_EVENT_CHANNEL
-}

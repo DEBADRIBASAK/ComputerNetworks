@@ -1,8 +1,0 @@
-// -*- MPC -*-
-project(*Server) : rt_server {
-  exename=server
-
-  Source_Files {
-    server.cpp
-  }
-}

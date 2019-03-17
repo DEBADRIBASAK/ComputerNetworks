@@ -1,5 +1,0 @@
-// -*- MPC -*-
-project : taolib, anytypecode, pi, core_strategies {
-  after   += Strategies
-  libs    += TAO_Strategies
-}

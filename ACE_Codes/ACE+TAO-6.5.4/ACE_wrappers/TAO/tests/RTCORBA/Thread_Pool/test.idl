@@ -1,8 +1,0 @@
-
-interface test
-{
-  long method (in long client_id,
-               in long iteration);
-
-  oneway void shutdown ();
-};

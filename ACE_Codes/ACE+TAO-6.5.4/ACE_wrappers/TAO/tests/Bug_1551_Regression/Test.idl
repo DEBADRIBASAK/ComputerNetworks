@@ -1,9 +1,0 @@
-
-module Test
-{
-  /// A very simple interface
-  interface Hello
-  {
-    void short_sleep();
-  };
-};

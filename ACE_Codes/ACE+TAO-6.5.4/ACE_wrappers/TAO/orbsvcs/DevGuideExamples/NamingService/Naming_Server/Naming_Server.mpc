@@ -1,3 +1,0 @@
-project(*Messenger): namingexe, naming_serv {
-  requires += threads
-}

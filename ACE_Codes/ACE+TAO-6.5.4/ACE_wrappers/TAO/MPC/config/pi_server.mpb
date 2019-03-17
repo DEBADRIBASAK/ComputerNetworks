@@ -1,5 +1,0 @@
-// -*- MPC -*-
-project : taolib, pi, portableserver {
-  after   += PI_Server
-  libs    += TAO_PI_Server
-}

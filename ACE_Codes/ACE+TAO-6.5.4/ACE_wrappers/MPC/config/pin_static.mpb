@@ -1,6 +1,0 @@
-project : pin {
-  specific (!prop:windows) {
-    libs += sapin
-    libs -= pin
-  }
-}

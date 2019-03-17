@@ -1,5 +1,0 @@
-// -*- MPC -*-
-project: aceexe, tmcast {
-  exename = member
-}
-

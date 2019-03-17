@@ -1,9 +1,0 @@
-project {
-  Define_Custom(Test) {
-    automatic=0
-  }
-  Test_Files {
-    run_test*.pl
-  }
-}
-

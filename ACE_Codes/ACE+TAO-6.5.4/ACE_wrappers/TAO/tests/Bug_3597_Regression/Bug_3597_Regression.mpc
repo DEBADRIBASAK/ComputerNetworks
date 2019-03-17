@@ -1,7 +1,0 @@
-// -*- MPC -*-
-project(*Server): taoserver {
-  Source_Files {
-    server.cpp
-  }
-}
-

@@ -1,4 +1,0 @@
-// -*- MPC -*-
-project: namingexe, rtsched {
-  exename  = Sched
-}

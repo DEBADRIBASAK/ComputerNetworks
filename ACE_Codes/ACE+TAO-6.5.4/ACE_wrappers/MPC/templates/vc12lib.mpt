@@ -1,4 +1,0 @@
-// -*- MPC -*-
-conditional_include "vc12platforms"
-conditional_include "vc1xlib"
-conditional_include "user_vc12lib"

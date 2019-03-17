@@ -1,6 +1,0 @@
-#ifndef CANCELAPPXCEPTION_IDL
-#define CANCELAPPXCEPTION_IDL
-
-exception CancelledException {};
-
-#endif

@@ -1,7 +1,0 @@
-
-interface Simple_Server
-{
-  long test_method (in long x);
-
-  oneway void shutdown ();
-};

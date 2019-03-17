@@ -1,5 +1,0 @@
-interface testInterface
-{
-  void firstCalling ();
-  void secondCalling ();
-};

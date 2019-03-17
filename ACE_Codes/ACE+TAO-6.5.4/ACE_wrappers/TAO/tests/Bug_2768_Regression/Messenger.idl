@@ -1,8 +1,0 @@
-
-module SimpleMessenger
-{
-  interface Messenger
-  {
-    oneway void send();
-  };
-};

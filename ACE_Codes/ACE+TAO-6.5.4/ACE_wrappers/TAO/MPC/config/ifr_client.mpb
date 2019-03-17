@@ -1,5 +1,0 @@
-// -*- MPC -*-
-project : taolib, anytypecode {
-  libs    += TAO_IFR_Client
-  after   += IFR_Client
-}

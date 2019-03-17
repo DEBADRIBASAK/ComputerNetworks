@@ -1,4 +1,0 @@
-// -*- MPC -*-
-project(*StubTest) : taoexe, iormanip {
-  exename  = StubTest
-}

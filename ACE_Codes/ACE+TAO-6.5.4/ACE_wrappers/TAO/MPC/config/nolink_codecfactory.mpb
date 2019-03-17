@@ -1,4 +1,0 @@
-feature(interceptors, link_codecfactory) {
-  after -= CodecFactory
-  libs  -= TAO_CodecFactory
-}

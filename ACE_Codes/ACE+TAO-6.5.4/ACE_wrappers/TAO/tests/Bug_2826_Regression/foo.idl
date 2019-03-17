@@ -1,4 +1,0 @@
-interface foo
-{
-    void check();
-};
