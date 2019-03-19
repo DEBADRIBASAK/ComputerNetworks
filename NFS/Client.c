@@ -72,13 +72,14 @@ int main(int argc, char const *argv[])
 	}
 	else
 	{
-		int temp;
+		int temp,tries = 0;
 		do
 		{
 			printf("Enter username:\n");
 			scanf("%s",A.p.username);
 			printf("Enter password:\n");
 			scanf("%s",A.p.password);
+			printf("Username: %s Password: %s\n",A.p.username,A.p.password);
 			if(send(sfd,&A,sizeof(struct RegOrLogIn),0)<0)
 				perror("Could not send");
 			else
@@ -87,7 +88,12 @@ int main(int argc, char const *argv[])
 			}
 			if(!temp)
 				printf("Log In failed!\n");
-		}while(!temp);
+		}while(!temp&&(tries++)<3);
+		if(!temp)
+		{
+			printf("3 tries failed: this incident will be reported!\n");
+			exit(0);
+		}
 		sz = recv(sfd,prompt,100,0);
 		prompt[sz] = '\0';
 	}
@@ -96,7 +102,8 @@ int main(int argc, char const *argv[])
 	while(getchar()!='\n');
 	while(1)
 	{
-		printf("%s>\n",prompt);
+		printf("%s>",prompt);
+		fflush(stdout);
 		scanf("%[^\n]s",cm);
 		// printf("got it!\n");
 		while(getchar()!='\n');
@@ -141,7 +148,7 @@ int main(int argc, char const *argv[])
 			else
 				printf("File created Successfully\n");
 		}
-		else //dir
+		else if(strcmp(tok,"dir")==0)
 		{
 			tok = strtok(NULL," ");
 			strcpy(c.args,tok);
@@ -151,6 +158,17 @@ int main(int argc, char const *argv[])
 				perror("Directory creation failed");
 			else
 				printf("Directory created Successfully\n");
+		}
+		else if(strcmp(tok,"clear")==0)
+		{
+			system("clear");
+		}
+		else
+		{
+			send(sfd,&c,sizeof(struct command),0);
+			sleep(1);
+			close(sfd);
+			exit(0);
 		}
 	}
 	return 0;

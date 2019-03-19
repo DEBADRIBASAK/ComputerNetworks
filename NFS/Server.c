@@ -54,7 +54,7 @@ void register_client(struct Pair p)
 {
 	strcpy(client_list[ind].username,p.username);
 	strcpy(client_list[ind].password,p.password);
-	FILE* fp = fopen("database.txt","w+");
+	FILE* fp = fopen("database.txt","a");
 	if(fp==NULL)
 	{
 		perror("Could not open");
@@ -126,27 +126,46 @@ int main(int argc, char const *argv[])
 					strcpy(dir,A.p.username);
 					strcat(dir,"/");
 					send(nsfd,"Successfully registered",23,0);
+					sleep(2);
 					send(nsfd,dir,strlen(dir),0);
 				}
 			}
 			else
 			{
-				int temp;
-				if(!log_in(A.p))
+				int temp,tries = 0;
+				// if(!log_in(A.p))
+				// {
+				// 	temp = 0;
+				// 	send(nsfd,&temp,sizeof(int),0);
+				// 	sleep(1);
+				// 	close(nsfd);
+				// }
+				// else
+				// {
+				// 	char dir[50];
+				// 	strcpy(dir,A.p.username);
+				// 	strcat(dir,"/");
+				// 	temp = 1;
+				// 	send(nsfd,&temp,sizeof(int),0);
+				// 	send(nsfd,dir,strlen(dir),0);
+				// }
+				temp = log_in(A.p);
+				while(!temp&&tries<3)
 				{
-					temp = 0;
 					send(nsfd,&temp,sizeof(int),0);
-					sleep(1);
-					close(nsfd);
+					recv(nsfd,&A,sizeof(struct RegOrLogIn),0);
+					temp = log_in(A.p);
+					tries++;
 				}
+				if(!temp)
+					close(nsfd);
 				else
 				{
+					send(nsfd,&temp,sizeof(int),0);
 					char dir[50];
 					strcpy(dir,A.p.username);
-					strcat(dir,"/");
-					temp = 1;
-					send(nsfd,&temp,sizeof(int),0);
-					send(nsfd,dir,strlen(dir),0);
+				 	strcat(dir,"/");
+				 	send(nsfd,dir,strlen(dir),0);
 				}
 			}
 			pid_t c = fork();

@@ -45,8 +45,18 @@ int main(int argc, char const *argv[])
 				}
 				else
 				{
-					strcat(current_directory,"/");
-					strcat(current_directory,c.args);
+					if(strcmp(c.args,".."))
+					{
+						strcat(current_directory,"/");
+						strcat(current_directory,c.args);
+					}
+					else
+					{
+						int len = strlen(current_directory);
+						while(current_directory[len]!='/')
+							len--;
+						current_directory[len] = '\0';
+					}
 					temp = 1;
 				}
 				write(1,&temp,sizeof(int));
@@ -66,21 +76,21 @@ int main(int argc, char const *argv[])
 					drnt = readdir(drptr);
 					while(drnt!=NULL)
 					{
-						write(11,drnt->d_name,strlen(drnt->d_name));
-						write(11,"\n",1);
+						//write(11,drnt->d_name,strlen(drnt->d_name));
+						//write(11,"\n",1);
 						if(strcmp(drnt->d_name,".")!=0&&strcmp(drnt->d_name,"..")!=0)
 						{
 							write(1,drnt->d_name,strlen(drnt->d_name));
 						}
-						else
-						{
-							write(1,"over",4);
-							break;
-						}
+						// else
+						// {
+						// 	write(1,"over",4);
+						// 	break;
+						// }
 						drnt = readdir(drptr);
 						sleep(1);
 					}
-					
+					write(1,"over",4);
 				}
 			}
 			else if(strcmp(c.comm,"file")==0)
@@ -92,7 +102,7 @@ int main(int argc, char const *argv[])
 					temp = 1;
 				write(1,&temp,sizeof(int));
 			}
-			else
+			else if(strcmp(c.comm,"dir")==0)
 			{
 				int temp;
 				if(mkdir(c.args,0777)<0)
@@ -102,6 +112,12 @@ int main(int argc, char const *argv[])
 				else
 					temp = 1;
 				write(1,&temp,sizeof(int));
+			}
+			else
+			{
+				close(0);
+				close(1);
+				exit(0);
 			}
 		}
 	}
