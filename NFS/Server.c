@@ -133,22 +133,6 @@ int main(int argc, char const *argv[])
 			else
 			{
 				int temp,tries = 0;
-				// if(!log_in(A.p))
-				// {
-				// 	temp = 0;
-				// 	send(nsfd,&temp,sizeof(int),0);
-				// 	sleep(1);
-				// 	close(nsfd);
-				// }
-				// else
-				// {
-				// 	char dir[50];
-				// 	strcpy(dir,A.p.username);
-				// 	strcat(dir,"/");
-				// 	temp = 1;
-				// 	send(nsfd,&temp,sizeof(int),0);
-				// 	send(nsfd,dir,strlen(dir),0);
-				// }
 				temp = log_in(A.p);
 				while(!temp&&tries<3)
 				{
