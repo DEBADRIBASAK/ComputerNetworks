@@ -43,6 +43,8 @@ int main(int argc, char const *argv[])
 		{
 			perror("Reading error");
 		}
+		if(sz==0)
+		break;
 		buffer[sz] = '\0';
 		if(strcmp(buffer,"bye")==0)
 		{
@@ -64,6 +66,7 @@ int main(int argc, char const *argv[])
 				if(buffer[i]>='A'&&buffer[i]<='Z')
 				buffer[i] = buffer[i]-'A'+'a';
 			}
+			strcat(buffer," ");
 			strcat(buffer,buffer1);
 			write(1,buffer,strlen(buffer));
 		}
