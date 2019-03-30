@@ -87,12 +87,12 @@ int main(int argc, char const *argv[])
 	sfd = 10+atoi(argv[1]);
 	while(1)
 	{
-		nsfd = accept(sfd,NULL,NULL);
-		if(nsfd<0)
-		{
-			perror("Could not accept");
-		}
-		func1();
+		// nsfd = accept(sfd,NULL,NULL);
+		// if(nsfd<0)
+		// {
+		// 	perror("Could not accept");
+		// }
+		// func1();
 	}
 	return 0;
 }

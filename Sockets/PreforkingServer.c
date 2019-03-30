@@ -47,14 +47,18 @@ int main()
 			{
 				nsfd = accept(sfd,NULL,NULL);
 				num++;
+				if(num==1)
+				kill(getppid(),SIGUSR1);;
+				char buffer[50];
+				sprintf(buffer,"Hello from child: %d",i+1);
+				while(1)
+				{
+					send(nsfd,buffer,strlen(buffer),0);sleep(1);
+				}
+				
 			}
-			kill(getppid(),SIGUSR1);
-			char buffer[50];
-			sprintf(buffer,"Hello from child: %d",i+1);
-			while(1)
-			{
-				send(nsfd,buffer,strlen(buffer),0);sleep(1);
-			}
+			
+			
 		}
 	}
 	pause();pause();pause();
