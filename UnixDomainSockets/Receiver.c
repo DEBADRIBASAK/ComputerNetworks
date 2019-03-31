@@ -55,7 +55,20 @@ int main(int argc, char const *argv[])
 	{
 		while(fgetc(fp)!='\n');
 		printf("Reading: %s\n",arr);
+		sleep(1);
 	}
+	
+	strcpy(arr,"I am writing this!!\n");
+	
+	if(write(nfd,arr,strlen(arr))>0)
+	{
+		printf("Writing successful\n");
+	}
+	else
+	{
+		perror("Could not write");
+	}
+	fflush(fp);
 
 	return 0;
 }

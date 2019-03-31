@@ -28,7 +28,7 @@ int main(int argc, char const *argv[])
 	int nsfd = accept(usfd,NULL,NULL);
 	if(nsfd<0)
 		perror("Could not accept");
-	int fd = open("file.txt",O_RDONLY);
+	int fd = open("file.txt",O_RDWR|O_APPEND);
 	if(fd<0)
 	{
 		perror("Could not open");exit(0);
