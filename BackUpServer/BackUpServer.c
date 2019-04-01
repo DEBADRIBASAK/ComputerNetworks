@@ -5,7 +5,7 @@
 #include <sys/un.h>
 #define PATH "/tmp/backup.socket"
 #define CONTROLLEN CMSG_LEN(sizeof(int))
-int fd[10][255],ind[10] = {0},ind1 = 0,num[10];
+int fd[10][255],ind[10] = {0},ind1 = 0,num[10],sfd[10];
 int nusfd[10],ind2 = 0;
 fd_set readset;
 
@@ -53,7 +53,7 @@ int main(int argc, char const *argv[])
 			if(FD_ISSET(usfd,&readset))
 			{
 				nusfd[ind2] = accept(usfd,NULL,NULL);
-				FD_SET(nusfd[ind2++],&readset);
+				FD_SET(nusfd[ind2],&readset);ind2++; //*********ind2++ must be outside the FD_SET*********
 			}
 			else
 				FD_SET(usfd,&readset);
@@ -61,7 +61,7 @@ int main(int argc, char const *argv[])
 			{
 				if(FD_ISSET(nusfd[i],&readset))
 				{
-					int f = 0;
+					int f = 0,first = 1;
 					while(1)
 					{
 						struct msghdr msg;
@@ -91,14 +91,46 @@ int main(int argc, char const *argv[])
 								f = (int)(buf[0]=='2');
 								break;
 							}
-							fd[ind1][ind[ind1]] = *(int*)CMSG_DATA(cmptr);
-							FD_SET(fd[ind1][ind[ind1]++],&readset);
+							if(!first)
+							{
+								fd[ind1][ind[ind1]] = *(int*)CMSG_DATA(cmptr);
+								FD_SET(fd[ind1][ind[ind1]],&readset);ind[ind1]++;
+							}
+							else
+							{
+								first = 0;
+								sfd[ind1] = *(int*)CMSG_DATA(cmptr);
+								FD_SET(sfd[ind1],&readset);
+							}
 						}
 					}
 					if(f) //server is up
 					{
 						int j = find(i);
-						for(int i1=0;i1<ind[j];i++)
+						struct msghdr msg;
+							char buf[2];
+							buf[0] = '1';
+							buf[1] = '1';
+							struct iovec iov[1];
+							iov[0].iov_base = buf;
+							iov[0].iov_len = 2;
+							msg.msg_iov = iov;
+							msg.msg_iovlen = 1;
+							msg.msg_name = NULL;
+							msg.msg_namelen = 0;
+							struct cmsghdr* cmptr;
+							cmptr = (struct cmsghdr*)malloc(CONTROLLEN);
+							cmptr->cmsg_level = SOL_SOCKET;
+							cmptr->cmsg_type = SCM_RIGHTS;
+							cmptr->cmsg_len = CONTROLLEN;
+							msg.msg_control = cmptr;
+							msg.msg_controllen = CONTROLLEN;
+							*(int*)CMSG_DATA(cmptr) = sfd[j];
+
+							FD_CLR(sfd[j],&readset);
+							if(sendmsg(nusfd[i],&msg,0)<0)
+								perror("Could not send fd");
+						for(int i1=0;i1<ind[j];i1++)
 						{
 							if(fd[j][i1]==-1)
 								continue;
@@ -126,18 +158,18 @@ int main(int argc, char const *argv[])
 							if(sendmsg(nusfd[i],&msg,0)<0)
 								perror("Could not send fd");
 						}
-						struct msghdr msg;
-							char buf[2];
+						//struct msghdr msg;
+						//	char buf[2];
 							buf[0] = '0';
 							buf[1] = '0';
-							struct iovec iov[1];
+							//struct iovec iov[1];
 							iov[0].iov_base = buf;
 							iov[0].iov_len = 2;
 							msg.msg_iov = iov;
 							msg.msg_iovlen = 1;
 							msg.msg_name = NULL;
 							msg.msg_namelen = 0;
-							struct cmsghdr* cmptr;
+						//	struct cmsghdr* cmptr;
 							cmptr = (struct cmsghdr*)malloc(CONTROLLEN);
 							cmptr->cmsg_level = SOL_SOCKET;
 							cmptr->cmsg_type = SCM_RIGHTS;
@@ -150,7 +182,10 @@ int main(int argc, char const *argv[])
 							ind[j] = 0;
 					}
 					else
+					{
+						num[ind1] = i;
 						ind1++;
+					}
 				}
 				else
 					FD_SET(nusfd[i],&readset);
@@ -158,14 +193,20 @@ int main(int argc, char const *argv[])
 
 			for(int i=0;i<stoind1;i++)
 			{
-				for(int j=0;j<ind[i];i++)
+				for(int j=0;j<ind[i];j++)
 				{
 					if(fd[i][j]==-1)
 					continue;
 					if(FD_ISSET(fd[i][j],&readset))
 					{
-						printf("Selected %d-%d\n",i,j);
+						//printf("Selected %d-%d\n",i,j);
 						sz = recv(fd[i][j],buffer,255,0);
+						if(sz==0)
+						{
+							FD_CLR(fd[i][j],&readset);
+							fd[i][j] = -1;
+							continue;
+						}
 						buffer[sz] = '\0';
 						if(strcmp(buffer,"X")==0)
 						{
@@ -177,7 +218,7 @@ int main(int argc, char const *argv[])
 						{
 							if(j!=k&&fd[i][k]!=-1)
 							{
-								printf("Sending to: %d-%d\n",i,k);
+								//printf("Sending to: %d-%d\n",i,k);
 								send(fd[i][k],buffer,strlen(buffer),0);
 							}
 						}
@@ -185,6 +226,18 @@ int main(int argc, char const *argv[])
 					else
 						FD_SET(fd[i][j],&readset);
 				}
+			}
+			for(int i=0;i<stoind1;i++)
+			{
+				if(FD_ISSET(sfd[i],&readset))
+				{
+					printf("Accepting on behalf of server %d\n",i);
+					fd[i][ind[i]] = accept(sfd[i],NULL,NULL);
+					FD_SET(fd[i][ind[i]],&readset);
+					ind[i]++;
+				}
+				else
+					FD_SET(sfd[i],&readset);
 			}
 
 		}

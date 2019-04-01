@@ -61,6 +61,29 @@ int main(int argc, char const *argv[])
 				scanf("%s",buffer);
 				if(strcmp(buffer,"down")==0)
 				{
+					struct msghdr msg;
+						char buf[2];
+						buf[0] = '1';
+						buf[1] = '1';
+						struct iovec iov[1];
+						iov[0].iov_base = buf;
+						iov[0].iov_len = 2;
+						msg.msg_iov = iov;
+						msg.msg_iovlen = 1;
+						msg.msg_name = NULL;
+						msg.msg_namelen = 0;
+						struct cmsghdr* cmptr;
+						cmptr = (struct cmsghdr*)malloc(CONTROLLEN);
+						cmptr->cmsg_level = SOL_SOCKET;
+						cmptr->cmsg_type = SCM_RIGHTS;
+						cmptr->cmsg_len = CONTROLLEN;
+						msg.msg_control = cmptr;
+						msg.msg_controllen = CONTROLLEN;
+						*(int*)CMSG_DATA(cmptr) = sfd;
+
+						FD_CLR(sfd,&readset);
+						if(sendmsg(usfd,&msg,0)<0)
+							perror("Could not send fd");
 					for(int i=0;i<ind;i++)
 					{
 						if(nsfd[i]==-1)
@@ -89,18 +112,18 @@ int main(int argc, char const *argv[])
 						if(sendmsg(usfd,&msg,0)<0)
 							perror("Could not send fd");
 					}
-					struct msghdr msg;
-						char buf[2];
+					//struct msghdr msg;
+					//	char buf[2];
 						buf[0] = '0';
 						buf[1] = '0';
-						struct iovec iov[1];
+					//	struct iovec iov[1];
 						iov[0].iov_base = buf;
 						iov[0].iov_len = 2;
 						msg.msg_iov = iov;
 						msg.msg_iovlen = 1;
 						msg.msg_name = NULL;
 						msg.msg_namelen = 0;
-						struct cmsghdr* cmptr;
+					//	struct cmsghdr* cmptr;
 						cmptr = (struct cmsghdr*)malloc(CONTROLLEN);
 						cmptr->cmsg_level = SOL_SOCKET;
 						cmptr->cmsg_type = SCM_RIGHTS;
@@ -136,7 +159,7 @@ int main(int argc, char const *argv[])
 							perror("Could not send initiator");
 						else
 						{
-							ind = 0;
+							ind = 0;int first = 1;
 							while(1)
 							{
 								struct msghdr msg;
@@ -160,8 +183,17 @@ int main(int argc, char const *argv[])
 								{
 									if(buf[0]=='0')
 										break;
-									nsfd[ind] = *(int*)CMSG_DATA(cmptr);
-									FD_SET(nsfd[ind++],&readset);
+									if(!first)
+									{
+										nsfd[ind] = *(int*)CMSG_DATA(cmptr);
+										FD_SET(nsfd[ind],&readset);ind++;
+									}
+									else
+									{
+										first = 0;
+										sfd = *(int*)CMSG_DATA(cmptr);
+										FD_SET(sfd,&readset);
+									}
 								}
 							}
 						}
@@ -186,25 +218,33 @@ int main(int argc, char const *argv[])
 				FD_SET(sfd,&readset);
 			for(int i=0;i<stoind;i++)
 			{
+				if(nsfd[i]==-1)
+					continue;
 				if(FD_ISSET(nsfd[i],&readset))
 				{
-					printf("Selected: %d\n",i);
+				//	printf("Selected: %d\n",i);
 					if((sz = recv(nsfd[i],buffer,255,0))<0)
 					{
 						perror("Could not read");
 					}
 					else
 					{
+						if(sz==0)
+						{
+							FD_CLR(nsfd[i],&readset);
+							nsfd[i] = -1;continue;
+						}
 						buffer[sz] = '\0';
 						if(strcmp(buffer,"X")==0)
 						{
+							FD_CLR(nsfd[i],&readset);
 							nsfd[i] = -1;continue;
 						}
 						for(int j=0;j<stoind;j++)
 						{
 							if(j!=i&&nsfd[j]!=-1)
 							{
-								printf("Sending to: %d\n",j);
+								//printf("Sending to: %d\n",j);
 								send(nsfd[j],buffer,strlen(buffer),0);
 							}
 						}

@@ -18,6 +18,7 @@ int main(int argc, char const *argv[])
 		if(r>0)
 		{
 			stoind = ind;f = 0;
+		//	printf("stoind = %d\n",stoind);
 			if(FD_ISSET(0,&readset))
 			{
 				scanf("%[^\n]s",buffer);
@@ -37,8 +38,10 @@ int main(int argc, char const *argv[])
 					}
 					else
 					{
-						FD_SET(sfd[ind++],&readset);
+						FD_SET(sfd[ind],&readset);
 						printf("Connected with server at port no: %d\n",port);
+						ind++;
+						//printf("ind = %d\n",ind);
 					}
 				}
 				else
@@ -47,7 +50,11 @@ int main(int argc, char const *argv[])
 					while(getchar()!='\n');
 					send(sfd[port-1],buffer,strlen(buffer),0);
 					if(strcmp(buffer,"X")==0)
-						f = 1;
+					{
+						sleep(1);
+						close(sfd[port-1]);
+						sfd[port-1] = -1;
+					}
 				}
 			}
 			else
@@ -56,9 +63,12 @@ int main(int argc, char const *argv[])
 			{
 				if(FD_ISSET(sfd[i],&readset))
 				{
+				//	printf("Selected server: %d\n",i);
 					sz = recv(sfd[i],buffer,255,0);
+					if(sz==0)
+						exit(0);
 					buffer[sz] = '\0';
-					printf("Received: %s\n",buffer);
+					printf("[From Server: %d] Received: %s\n",i,buffer);
 				}
 				else
 					FD_SET(sfd[i],&readset);
