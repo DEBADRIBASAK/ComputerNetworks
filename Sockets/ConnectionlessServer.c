@@ -21,7 +21,7 @@ int main()
 	char buffer[50];
 	struct sockaddr_in addr;
 	addr.sin_family = AF_INET;
-	addr.sin_addr.s_addr = htonl(INADDR_ANY);
+	addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
 	addr.sin_port = PORT;
 	int sfd = socket(AF_INET,SOCK_DGRAM,0);
 	if(sfd<0)
@@ -33,13 +33,15 @@ int main()
 	{
 		perror("Binding error");exit(0);
 	}
+	else
+	printf("Successful..\n");
 	int nsfd;
-	struct sockaddr cl_addr;
+	struct sockaddr_in cl_addr;
 	int sz,len = sizeof(cl_addr);
 	while(1)
 	{
 		printf("waiting...\n");
-		if((sz = recvfrom(sfd,buffer,50,0,&cl_addr,&len))<0)
+		if((sz = recvfrom(sfd,buffer,50,0,(struct sockaddr*)&cl_addr,&len))<0)
 		{
 			perror("Receiving error");
 			exit(0);
@@ -49,7 +51,7 @@ int main()
 			buffer[sz] = '\0';
 			printf("Receiving: %s\n",buffer);
 			to_upper(buffer);
-			if(sendto(sfd,buffer,strlen(buffer),0,&cl_addr,len)<0)
+			if(sendto(sfd,buffer,strlen(buffer),0,(struct sockaddr*)&cl_addr,len)<0)
 			{
 				perror("Sending failed");
 				exit(0);

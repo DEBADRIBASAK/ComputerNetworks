@@ -40,6 +40,7 @@ int main(int argc, char const *argv[])
 			perror("Sending failed");
 			exit(0);
 		}
+		printf("Sent..\n");
 		if((sz = recvfrom(sfd,buffer,50,0,(struct sockaddr*)&addr1,&len))<0)
 		{
 			perror("Reading error!");
