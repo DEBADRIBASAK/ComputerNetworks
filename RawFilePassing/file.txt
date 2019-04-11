@@ -1,0 +1,20 @@
+The first few lines in the previous code example are related to
+namespaces (mentioned later in this chapter), which is a way to group
+associated classes. The namespace keyword declares the namespace
+with which your class should be associated. All code within the braces
+that follow it is regarded as being within that namespace. The using
+declaration specifies a namespace that the compiler should look at to
+find any classes that are referenced in your code but aren’t defined in
+the current namespace. This serves the same purpose as the import
+statement in Java and the using namespace statement in C++ (code file
+HelloWorldApp/Program.cs ):
+The standard System namespace is where the most commonly used
+.NET types reside. It is important to realize that everything you do in
+C# depends on .NET base classes. In this case, you are using the
+Console class within the System namespace to write to the console
+window. C# has no built-in keywords of its own for input or output; it
+is completely reliant on the .NET classes.
+Within the source code, a class called Program is declared. However,
+because it has been placed in a namespace called Wrox.HelloWorldApp ,
+the fully qualified name of this class is Wrox.HelloWorldApp.Program
+(code file HelloWorldApp/Program.cs ):

@@ -28,6 +28,7 @@ int main(int argc, char const *argv[])
 
 	 char buffer[BUF_LEN],buff[BUF_LEN];
 	int sz;
+	
 	int len = sizeof(addr1);
 	while(1)
 	{
