@@ -7,7 +7,19 @@
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
 #include <netinet/udp.h>
-
+#include <net/if_arp.h>
+struct arphdr1
+{
+    unsigned short int ar_hrd;		/* Format of hardware address.  */
+    unsigned short int ar_pro;		/* Format of protocol address.  */
+    unsigned char ar_hln;		/* Length of hardware address.  */
+    unsigned char ar_pln;		/* Length of protocol address.  */
+    unsigned short int ar_op;		/* ARP opcode (command).  */
+    unsigned char __ar_sha[6];	/* Sender hardware address.  */
+    unsigned char __ar_sip[4];		/* Sender IP address.  */
+    unsigned char __ar_tha[6];	/* Target hardware address.  */
+    unsigned char __ar_tip[4];		/* Target IP address.  */
+};
 int n = 0;
 void print_packet_info(const u_char *packet,struct pcap_pkthdr packet_header) 
 {
@@ -21,6 +33,7 @@ void packet_handler(u_char* args,const struct pcap_pkthdr* header,const u_char* 
 	eth_hdr = (struct ether_header*)packet;
 	if(ntohs(eth_hdr->ether_type)==ETHERTYPE_IP)
 	{
+		//return;
 		
 		 //length
 		const u_char* ip_header,*tcp_header,*payload,*udp_header;
@@ -44,11 +57,11 @@ void packet_handler(u_char* args,const struct pcap_pkthdr* header,const u_char* 
 		//printf("Sender IP: %s\n",inet_ntop(AF_INET,&(iph->saddr),ad,INET_ADDRSTRLEN));
 		//printf("Receiver IP: %s\n",inet_ntop(AF_INET,&(iph->daddr),ad1,INET_ADDRSTRLEN));
 
-		if(strcmp(ad1,"127.0.0.1")!=0)
+		/*if(strcmp(ad1,"172.30.105.250")!=0)
 		{		
 			n++;
 			return;		
-		}
+		}*/
 		printf("%d. (IP) : ",n);
 		print_packet_info(packet,*header);
 		printf("Sender IP: %s\n",ad);
@@ -109,10 +122,31 @@ void packet_handler(u_char* args,const struct pcap_pkthdr* header,const u_char* 
 
 		}
 	}
-	// else if(ntohs(eth_hdr->ether_type)==ETHERTYPE_ARP)
-	// {
-	// 	printf("ARP Packet\n");
-	// }
+	else if(ntohs(eth_hdr->ether_type)==ETHERTYPE_ARP)
+	{
+		struct arphdr1* arph;
+		arph = (struct arphdr1*)(packet+14);
+		// if(ntohs(arph->ar_op)==1)
+		// 	return;
+		printf("-----------------ARP Packet---------------------\n");
+		
+		printf("ARP Operation: %d\n",ntohs(arph->ar_op));
+
+		printf("Sender IP Address: ");
+
+		for(int i=0;i<4;i++)
+		{
+			printf("%d.",(int)arph->__ar_sip[i]);
+		}
+
+		printf("Receiver IP Address: ");
+
+		for(int i=0;i<4;i++)
+		{
+			printf("%d.",(int)arph->__ar_tip[i]);
+		}
+
+	}
 	//print_packet_info(packet,*header);
 	n++;
 	if(n==1000)
@@ -130,6 +164,7 @@ int main(int argc, char const *argv[])
 	{
 		printf("Error: %s\n",error);exit(0);
 	}
+	printf("Device: %s\n", device);
 	handle = pcap_open_live(device,BUFSIZ,0,timeout,error);
 	if(handle==NULL)
 	{
