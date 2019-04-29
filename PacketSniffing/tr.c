@@ -63,6 +63,8 @@ int main(int argc,char* argv[])
 	dst[4] = 0xFF;
 	dst[5] = 0xFF;
 	
+	// ethernet header
+	
 	memcpy(buf,dst,6*(sizeof (uint8_t)));
 	memcpy(buf+6*(sizeof (uint8_t)),src,6*(sizeof (uint8_t)));
 	

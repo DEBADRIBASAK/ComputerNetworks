@@ -57,11 +57,11 @@ void packet_handler(u_char* args,const struct pcap_pkthdr* header,const u_char* 
 		//printf("Sender IP: %s\n",inet_ntop(AF_INET,&(iph->saddr),ad,INET_ADDRSTRLEN));
 		//printf("Receiver IP: %s\n",inet_ntop(AF_INET,&(iph->daddr),ad1,INET_ADDRSTRLEN));
 
-		/*if(strcmp(ad1,"172.30.105.250")!=0)
+		if(strcmp(ad1,"172.30.105.250")!=0)
 		{		
 			n++;
 			return;		
-		}*/
+		}
 		printf("%d. (IP) : ",n);
 		print_packet_info(packet,*header);
 		printf("Sender IP: %s\n",ad);
@@ -76,12 +76,14 @@ void packet_handler(u_char* args,const struct pcap_pkthdr* header,const u_char* 
 			if(protocol==IPPROTO_TCP)
 			{
 				printf("tcp Packet\n");
+				struct tcphdr* tcph;
 				tcp_header = packet+ethernet_length+ip_length;
-				tcp_length = ((*(tcp_header+12))&0xF0)>>4;
-				tcp_length*=4;
-			//	printf("TCP Header length: %d bytes\n",tcp_length);
-				payload_length = header->caplen-(ethernet_length+ip_length+tcp_length);
-			//	printf("payload length: %d\n",payload_length);
+				tcph = (struct tcphdr*)tcp_header;
+				
+				printf("Sender Port: %d\n",ntohs(tcph->source));
+				printf("Target POrt: %d\n",ntohs(tcph->dest));
+
+
 				payload = packet+(ethernet_length+ip_length+tcp_length);
 				printf("Trying to print the data: \n");
 				const u_char* pnt = payload;
@@ -124,6 +126,7 @@ void packet_handler(u_char* args,const struct pcap_pkthdr* header,const u_char* 
 	}
 	else if(ntohs(eth_hdr->ether_type)==ETHERTYPE_ARP)
 	{
+		return;
 		struct arphdr1* arph;
 		arph = (struct arphdr1*)(packet+14);
 		// if(ntohs(arph->ar_op)==1)

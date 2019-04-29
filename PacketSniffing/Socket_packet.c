@@ -57,7 +57,7 @@ int main(int argc, char const *argv[])
 				printf("Sender IP: %s\n",ad);
 				printf("Receiver IP: %s\n",ad1);
 				printf("IP header length: %d\n",ip->ihl);
-				printf("IP Varsion: %d\n",ip->version);
+				printf("IP Version: %d\n",ip->version);
 				printf("Protocol: ");
 				if(ip->protocol==IPPROTO_TCP)
 				{
